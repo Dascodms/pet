@@ -5,13 +5,12 @@ import React, { useState } from 'react';
 import ArticleModalTags from './ArticleModalTags/ArticleModalTags';
 import { ArticleProps } from './Article.type';
 import ArticleUser from './ArticleUser/ArticleUser';
+import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { Link } from 'react-router-dom';
-import { RiHeartAddLine } from 'react-icons/ri';
 import Tag from '../Tag/Tag';
+import { useFavoriteArticle } from '../../../hooks/useFavoriteArticle';
 
 const Article: React.FC<ArticleProps> = ({ article, classes }): JSX.Element => {
-  const [showTags, setShowTags] = useState<boolean>(false);
-
   const {
     body,
     title,
@@ -20,8 +19,15 @@ const Article: React.FC<ArticleProps> = ({ article, classes }): JSX.Element => {
     description,
     favoritesCount,
     tagList,
+    favorited,
     author: { image, username },
   } = article;
+  const [showTags, setShowTags] = useState<boolean>(false);
+  const [mutate, { isLoading, isIdle }] = useFavoriteArticle(slug, favorited);
+
+  const handleClickFavoriteButton = () => {
+    mutate();
+  };
 
   return (
     <div className={`article ${classes ? classes : null}`}>
@@ -46,10 +52,13 @@ const Article: React.FC<ArticleProps> = ({ article, classes }): JSX.Element => {
       </Link>
       <div className="article__wrapper">
         <ArticleUser username={username} image={image} createdAt={createdAt} />
-        <div className="article__icon">
-          <RiHeartAddLine size="1.5em" color="grey" />
+        <FavoriteButton
+          disabled={isLoading}
+          favorited={favorited}
+          handleClickFavoriteButton={handleClickFavoriteButton}
+        >
           <span>{favoritesCount}</span>
-        </div>
+        </FavoriteButton>
         {tagList.slice(0, 4).map((tag) => (
           <Tag classes="tag__feed" tag={tag} key={Math.random() * 1000} />
         ))}

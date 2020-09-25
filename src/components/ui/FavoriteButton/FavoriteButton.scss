@@ -1,0 +1,10 @@
+.favorite {
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
+  cursor: pointer;
+  outline: none;
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
