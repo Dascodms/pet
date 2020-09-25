@@ -25,11 +25,14 @@ const Header = (): JSX.Element => {
           <Logo />
           {user ? (
             <HeaderWrapper classes="header__menu">
-              <Link className="link" to="/signin">
-                settings
+              <Link className="link" to="/">
+                Home
               </Link>
               <Link className="link" to="/signup">
-                Create Article
+                New Post
+              </Link>
+              <Link className="link" to="/">
+                Settings
               </Link>
               <button onClick={onClickHandle} className="link">
                 Logout
