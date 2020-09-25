@@ -1,0 +1,33 @@
+@import '../../../assets/scss/variables.scss';
+
+.user-article {
+  &__banner {
+    background-color: #333;
+    margin-bottom: 20px;
+    padding: 15px 0;
+  }
+  &__title {
+    color: $white;
+    margin-bottom: 10px;
+  }
+  &__username {
+    color: $white;
+  }
+  &__date {
+    color: #bbb;
+  }
+  &__body {
+    font-size: 18px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $light;
+    margin-bottom: 20px;
+  }
+  &__date {
+    color: $grey;
+  }
+  &__comments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

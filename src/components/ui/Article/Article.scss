@@ -1,0 +1,75 @@
+@import '../../../assets/scss/variables';
+
+.article {
+  position: relative;
+  width: 560px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $black-box-shadow;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  &:hover {
+    box-shadow: $black-box-shadow-light;
+  }
+  &--mb20 {
+    margin-bottom: 20px;
+  }
+  &__title {
+    color: $black;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    word-break: break-all;
+  }
+  &__description {
+    color: $grey;
+    margin-bottom: 10px;
+  }  
+  &__more {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__wrapper {
+    margin-top: 20px;
+  }
+  &__tag {
+    display: inline-block;
+    color: $grey;
+    text-decoration: none;
+    margin: 5px;
+    transition: .2s all ease;
+    padding: 5px 10px;
+    border: 1px solid $grey;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      color: $light-green;
+      border: 1px solid $light-green;
+
+    }
+  }
+  &__tags {
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    right: 50px;
+    background-color: $white;
+    z-index: 5;
+    box-shadow: $black-box-shadow;
+    overflow-y: auto;
+  }
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__icon {
+    position: absolute;
+    bottom: 20px;
+    right: 15px;
+  }
+}

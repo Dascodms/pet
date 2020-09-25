@@ -1,0 +1,21 @@
+@import '../../../assets/scss/variables.scss';
+
+.input {
+  position: relative;
+  &__element {
+    border: 1px solid $light-black;
+    color: $grey;
+    width: 100%;
+    padding: 15px 10px;
+    outline-color: $light-blue;
+    font-size: 16px;
+  }
+  &__form {
+    margin-bottom: 35px;
+  }
+  &__error {
+    position: absolute;
+    top: 55px;
+    color: $error;
+  }
+}

@@ -1,0 +1,27 @@
+@import '../../../assets/scss/variables.scss';
+
+.tag {
+  display: inline-block;
+  margin: 5px;
+  margin-left: 0;
+  padding: 5px 10px;
+  border: 1px solid $grey;
+  border-radius: 5px;
+  cursor: pointer;
+  color: $grey;
+  text-decoration: none;
+  transition: .2s all ease;
+  background-color: $white;
+  &:hover {
+    color: $light-green;
+    border: 1px solid $light-green;
+  }
+  &__popular {
+    margin: 5px 5px;
+  }
+  &__active {
+    border: 1px solid $green;
+    color: $green;
+  }
+  
+}

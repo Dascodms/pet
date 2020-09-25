@@ -1,0 +1,24 @@
+@import '../../../assets/scss/variables.scss';
+
+.button {
+  padding: 10px 10px;
+  width: 115px;
+  color: white;
+  border: none;
+  background-color: $green;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out .2s;
+  outline: none;
+  &__form {
+    align-self: flex-end;
+  }
+  &:hover {
+    background-color: $green;
+  }
+  &:disabled {
+    background-color: $grey;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,21 @@
+@import '../../../assets/scss/variables.scss';
+
+.tabs {
+  width: 560px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $green;
+  &__tab {
+    display: inline-block;
+    color: $grey;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: .2s all ease;
+    &:hover {
+      color: $light-green;
+    }
+    &--active {
+      color: $green;
+    }
+  }
+}

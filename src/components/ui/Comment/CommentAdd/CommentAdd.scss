@@ -1,0 +1,13 @@
+@import '../../../../assets/scss/variables.scss';
+
+.comment-add {
+  border: 1px solid $light;
+  width: 450px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}

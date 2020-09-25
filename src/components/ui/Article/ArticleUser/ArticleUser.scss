@@ -1,0 +1,34 @@
+@import '../../../../assets/scss/variables.scss';
+
+.article-user {
+  &__img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+  }
+  &__date {
+    color: $grey;
+  }
+  &__flex {
+    display: flex;
+    align-items: center;
+  }
+
+  &__author {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+      color: $green;
+    }
+    &--white {
+      color: $white;
+    }
+  }
+  &__comment {
+    margin-top: 10px;
+  }
+}
