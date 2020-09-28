@@ -1,6 +1,5 @@
 import '../../../assets/scss/form.scss';
 
-import { MutationFunction, QueryResult, useMutation } from 'react-query';
 import { TOKEN_NAME, post } from '../../../api';
 
 import Button from '../../ui/Button/Button';
@@ -12,6 +11,7 @@ import { User } from '../../../hooks/useUser';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import { useMutation } from 'react-query';
 
 type FormData = {
   email: string;
@@ -22,7 +22,6 @@ async function signIn(data: FormData): Promise<User> {
   const response = await post<{ user: User }>('/users/login', {
     user: data,
   });
-  console.log(response);
   return response.user;
 }
 
@@ -45,6 +44,7 @@ const SingIn = (): JSX.Element => {
     mutate(data);
     reset();
   };
+
   return (
     <Container classes="container__form">
       <Title title="Sign In" />
@@ -69,12 +69,9 @@ const SingIn = (): JSX.Element => {
           classes="input__form"
           error={errors.password}
         />
-        <Button
-          disabled={isLoading}
-          classes="button__form"
-          value="Sign in"
-          type="submit"
-        />
+        <Button disabled={isLoading} flexEnd submit>
+          Sign in
+        </Button>
         {error ? <div>Error!</div> : null}
       </form>
     </Container>

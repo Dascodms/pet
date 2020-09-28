@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import Input from '../../ui/Input/Input';
-import Container from '../../ui/Container/Container';
-import Title from '../../ui/Titile/Title';
 import '../../../assets/scss/form.scss';
+
+import React, { useEffect } from 'react';
+
 import Button from '../../ui/Button/Button';
+import Container from '../../ui/Container/Container';
+import Input from '../../ui/Input/Input';
+import Title from '../../ui/Titile/Title';
+import { useForm } from 'react-hook-form';
 
 type FormData = {
   username: string;
@@ -71,7 +73,9 @@ const SignUp = (): JSX.Element => {
           classes="input__form"
           error={errors.password}
         />
-        <Button classes="button__form" value="Sign up" type="submit" />
+        <Button flexEnd submit>
+          Sign up
+        </Button>
       </form>
     </Container>
   );

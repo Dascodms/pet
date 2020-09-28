@@ -1,19 +1,35 @@
 import './Button.scss';
 
-import React, { useEffect } from 'react';
-
 import { ButtonProps } from './Button.type';
+import React from 'react';
 
-const Button: React.FC<ButtonProps> = (props) => {
-  useEffect(() => {
-    console.log(props.disabled);
-  });
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  submit,
+  disabled,
+  flexEnd,
+  children,
+}) => {
   return (
-    <input
-      onClick={() => props.onClick()}
-      className={`button ${props.classes}`}
-      {...props}
-    />
+    <>
+      {submit ? (
+        <button
+          disabled={disabled}
+          type="submit"
+          className={`button ${flexEnd ? 'button--flex-end' : ''}`}
+        >
+          {children}
+        </button>
+      ) : (
+        <button
+          disabled={disabled}
+          onClick={() => onClick()}
+          className={`button ${flexEnd ? 'button--flex-end' : ''}`}
+        >
+          {children}
+        </button>
+      )}
+    </>
   );
 };
 

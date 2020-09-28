@@ -1,9 +1,7 @@
-import { FieldError } from 'react-hook-form';
-
 export type ButtonProps = {
-  type: string;
-  value: string;
-  classes?: string;
+  submit?: boolean;
+  flexEnd?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  children: React.ReactNode;
 };

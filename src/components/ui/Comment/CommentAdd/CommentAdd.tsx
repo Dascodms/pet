@@ -44,10 +44,10 @@ const CommentAdd: React.FC<CommentAddProps> = ({ slug }): JSX.Element => {
         <ArticleUser username={user.username} image={user.image} />
         <Button
           disabled={commentText.trim().length === 0}
-          value="Post comment"
-          type="button"
           onClick={handleClick}
-        />
+        >
+          Post comment
+        </Button>
       </div>
     </div>
   );

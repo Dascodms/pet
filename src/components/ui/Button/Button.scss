@@ -11,7 +11,7 @@
   cursor: pointer;
   transition: ease-in-out .2s;
   outline: none;
-  &__form {
+  &--flex-end {
     align-self: flex-end;
   }
   &:hover {
