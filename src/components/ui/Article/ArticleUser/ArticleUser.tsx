@@ -3,32 +3,25 @@ import './ArticleUser.scss';
 import { ArticleUserProps } from '../Article.type';
 import Moment from 'react-moment';
 import React from 'react';
+import User from '../../User/User';
+import UserAvatar from '../../User/UserAvatar/UserAvatar';
 
 const ArticleUser: React.FC<ArticleUserProps> = ({
   image,
   username,
   createdAt,
-  articlePage,
-  isComment,
+  marginTop,
+  whiteUsername,
 }) => {
   return (
     <div
       className={`article-user__flex ${
-        isComment ? 'article-user__comment' : ''
+        marginTop ? 'article-user--margin-top' : ''
       }`}
     >
-      <div
-        className="article-user__img"
-        style={{ backgroundImage: `url(${image})` }}
-      ></div>
+      <UserAvatar username={username} image={image} />
       <div>
-        <div
-          className={`article-user__author ${
-            articlePage ? 'article-user__author--white' : ''
-          }`}
-        >
-          {username}
-        </div>
+        <User white={whiteUsername} username={username} />
         {createdAt ? (
           <Moment className="article-user__date" format="LL HH:mm">
             {createdAt}

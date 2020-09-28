@@ -40,7 +40,7 @@ const UserArticle: React.FC = (): JSX.Element => {
               image={image}
               username={username}
               createdAt={createdAt}
-              articlePage
+              whiteUsername
             />
           </div>
         </Container>

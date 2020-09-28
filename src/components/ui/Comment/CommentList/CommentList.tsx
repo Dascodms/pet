@@ -1,11 +1,10 @@
 import './CommentList.scss';
 
-import React, { useEffect } from 'react';
-
 import Comment from '../Comment';
 import CommentAdd from '../CommentAdd/CommentAdd';
 import { CommentListProps } from './CommentList.type';
 import { Link } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from '../../../Contexts/AuthContext';
 
 const CommentList: React.FC<CommentListProps> = ({

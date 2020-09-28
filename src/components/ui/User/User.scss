@@ -1,0 +1,14 @@
+@import '../../../assets/scss/variables.scss';
+
+.user {
+  display: block;
+  cursor: pointer;
+  color: $black;
+    &:hover {
+      text-decoration: underline;
+      color: $green;
+    }
+    &--white {
+      color: $white;
+    }
+}

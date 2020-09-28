@@ -32,8 +32,8 @@ export type ArticleUserProps = {
   image: string;
   username: string;
   createdAt?: string;
-  articlePage?: boolean;
-  isComment?: boolean;
+  whiteUsername?: boolean;
+  marginTop?: boolean;
 };
 
 export type ArticleModalTagsProps = {

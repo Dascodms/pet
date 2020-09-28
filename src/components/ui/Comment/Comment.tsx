@@ -16,18 +16,21 @@ const Comment: React.FC<CommentProps> = ({
   slug,
 }): JSX.Element => {
   const { image, username } = author;
-  const [mutate] = useDeleteComment(slug, id);
+  const [mutate, { isLoading }] = useDeleteComment(slug, id);
 
   useEffect(() => console.log(id));
   const handleRemove = () => {
     mutate();
   };
+
+  // TODO remove button in component
+
   return (
     <div className="comment">
       <div className="comment__body">{body}</div>
       <div className="comment__wrapper">
         <ArticleUser
-          isComment
+          marginTop
           createdAt={createdAt}
           image={image}
           username={username}
@@ -35,9 +38,10 @@ const Comment: React.FC<CommentProps> = ({
         {currentUser === username ? (
           <MdDeleteForever
             onClick={handleRemove}
-            color="red"
+            color={isLoading ? 'grey' : 'red'}
             size="1.5em"
             cursor="pointer"
+            className={`${isLoading ? 'comment__remove--loading' : ''}`}
           />
         ) : null}
       </div>
