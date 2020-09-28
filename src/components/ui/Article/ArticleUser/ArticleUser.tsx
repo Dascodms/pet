@@ -19,7 +19,7 @@ const ArticleUser: React.FC<ArticleUserProps> = ({
         marginTop ? 'article-user--margin-top' : ''
       }`}
     >
-      <UserAvatar username={username} image={image} />
+      <UserAvatar marginRight="10px" username={username} image={image} />
       <div>
         <User white={whiteUsername} username={username} />
         {createdAt ? (

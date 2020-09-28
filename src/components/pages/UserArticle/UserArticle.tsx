@@ -3,6 +3,7 @@ import './UserArticle.scss';
 import React, { useEffect } from 'react';
 
 import ArticleUser from '../../ui/Article/ArticleUser/ArticleUser';
+import Banner from '../../ui/Banner/Banner';
 import CommentList from '../../ui/Comment/CommentList/CommentList';
 import Container from '../../ui/Container/Container';
 import Loader from '../../ui/Loader/Loader';
@@ -32,19 +33,17 @@ const UserArticle: React.FC = (): JSX.Element => {
 
   return (
     <div className="user-article">
-      <div className="user-article__banner">
+      <Banner backgroundColor="#333">
         <Container>
-          <div className="user-article__banner">
-            <h1 className="user-article__title">{title}</h1>
-            <ArticleUser
-              image={image}
-              username={username}
-              createdAt={createdAt}
-              whiteUsername
-            />
-          </div>
+          <h1 className="user-article__title">{title}</h1>
+          <ArticleUser
+            image={image}
+            username={username}
+            createdAt={createdAt}
+            whiteUsername
+          />
         </Container>
-      </div>
+      </Banner>
       <Container>
         <div className="user-article__body">{body}</div>
         <div className="user-article__comments">
