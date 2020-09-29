@@ -10,7 +10,11 @@ import { Link } from 'react-router-dom';
 import Tag from '../Tag/Tag';
 import { useFavoriteArticle } from '../../../hooks/useFavoriteArticle';
 
-const Article: React.FC<ArticleProps> = ({ article, classes }): JSX.Element => {
+const Article: React.FC<ArticleProps> = ({
+  article,
+  classes,
+  setPage,
+}): JSX.Element => {
   const {
     body,
     title,
@@ -60,7 +64,12 @@ const Article: React.FC<ArticleProps> = ({ article, classes }): JSX.Element => {
           <span>{favoritesCount}</span>
         </FavoriteButton>
         {tagList.slice(0, 4).map((tag) => (
-          <Tag classes="tag__feed" tag={tag} key={Math.random() * 1000} />
+          <Tag
+            setPage={setPage}
+            classes="tag__feed"
+            tag={tag}
+            key={Math.random() * 1000}
+          />
         ))}
         {tagList.length > 4 && (
           <button onMouseMove={() => setShowTags(true)}>More...</button>

@@ -35,6 +35,7 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
     <div>
       {data.articles.map((article) => (
         <Article
+          setPage={setPage}
           key={article.updatedAt}
           article={article}
           classes="article--mb20"

@@ -35,6 +35,7 @@ const YourFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
       {data.articlesCount ? (
         data.articles.map((article) => (
           <Article
+            setPage={setPage}
             key={article.updatedAt}
             article={article}
             classes="article--mb20"

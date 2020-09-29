@@ -26,6 +26,7 @@ export type Author = {
 export type ArticleProps = {
   article: Article;
   classes: string;
+  setPage: (page: number) => void;
 };
 
 export type ArticleUserProps = {
