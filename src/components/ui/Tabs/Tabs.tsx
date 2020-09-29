@@ -1,21 +1,34 @@
 import './Tabs.scss';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
+
 import React from 'react';
-import { usePage } from '../../Contexts/PageContextComponent';
+import { TabsProps } from './Tabs.type';
+import { useAuth } from '../../Contexts/AuthContext';
 import { useTab } from '../../Contexts/TabContextComponent';
 
-const Tabs: React.FC = (): JSX.Element => {
+const Tabs: React.FC<TabsProps> = ({ setPage }): JSX.Element => {
   const { tab } = useTab();
-  const { setPage } = usePage();
+  const { user } = useAuth();
+  const { url } = useRouteMatch();
 
   return (
     <div className="tabs">
+      {user && (
+        <NavLink
+          onClick={() => setPage(0)}
+          activeClassName="tabs__tab--active"
+          className="tabs__tab"
+          to={`${url}/your-feed`}
+        >
+          Your feed
+        </NavLink>
+      )}
       <NavLink
         onClick={() => setPage(0)}
         activeClassName="tabs__tab--active"
         className="tabs__tab"
-        to="/home/feed"
+        to={`${url}/feed`}
       >
         Global Feed
       </NavLink>
@@ -24,7 +37,7 @@ const Tabs: React.FC = (): JSX.Element => {
           onClick={() => setPage(0)}
           activeClassName="tabs__tab--active"
           className="tabs__tab"
-          to={`/home/feed-by-tag?tag=${tab}`}
+          to={`${url}/feed-by-tag?tag=${tab}`}
         >
           #{tab}
         </NavLink>

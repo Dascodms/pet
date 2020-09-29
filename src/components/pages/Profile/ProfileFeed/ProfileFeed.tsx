@@ -1,25 +1,27 @@
-import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Article from '../../ui/Article/Article';
-import { FeedPage } from '../../../global-types/Feed.type';
-import Loader from '../../ui/Loader/Loader';
-import Paginate from '../../ui/Paginate/Paginate';
-import QueryString from 'query-string';
-import { useArticles } from '../../../hooks/useArticles';
+import Article from '../../../ui/Article/Article';
+import Loader from '../../../ui/Loader/Loader';
+import Paginate from '../../../ui/Paginate/Paginate';
+import { ProfileFeedProps } from './ProfileFeed.type';
+import React from 'react';
+import { useArticlesProfileFeed } from '../../../../hooks/useArticlesProfileFeed';
 
-const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
+const ProfileFeed: React.FC<ProfileFeedProps> = ({
+  username,
+  setPage,
+  page,
+}): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { tag } = QueryString.parse(location.search);
-  const { isLoading, data, error } = useArticles(page, tag as string);
+  const { isLoading, data, error } = useArticlesProfileFeed(page, username);
 
   const onPageChange = (page: number) => {
     setPage(page);
 
     history.push({
       pathname: location.pathname,
-      search: page ? `?tag=${tag}&page=${++page}` : `?tag=${tag}`,
+      search: page ? `?page=${++page}` : '',
     });
 
     window.scrollTo({
@@ -31,6 +33,7 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <div>
       {data.articles.map((article) => (
@@ -51,4 +54,4 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
   );
 };
 
-export default TagFeed;
+export default ProfileFeed;

@@ -1,12 +1,12 @@
 import './app.scss';
 
-import { AuthProvider, useAuth } from './Contexts/AuthContext';
-import React, { useEffect } from 'react';
-
 import Header from './Header/Header';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './Routes/Routes';
 import { TOKEN_NAME } from '../api';
+import { TabProvider } from './Contexts/TabContextComponent';
+import { useAuth } from './Contexts/AuthContext';
 import { useUser } from '../hooks/useUser';
 
 const App: React.FC = () => {
@@ -23,8 +23,10 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Header />
-      <Routes />
+      <TabProvider>
+        <Header />
+        <Routes />
+      </TabProvider>
     </Router>
   );
 };
