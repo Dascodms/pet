@@ -38,6 +38,7 @@ const ProfileFeed: React.FC<ProfileFeedProps> = ({
     <div>
       {data.articles.map((article) => (
         <Article
+          setPage={setPage}
           key={article.updatedAt}
           article={article}
           classes="article--mb20"

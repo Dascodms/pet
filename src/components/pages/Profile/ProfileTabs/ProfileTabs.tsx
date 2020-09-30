@@ -9,8 +9,6 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
 }): JSX.Element => {
   const { url, path } = useRouteMatch();
 
-  console.log(path, url);
-  console.log(location);
   return (
     <div className="tabs">
       <NavLink
