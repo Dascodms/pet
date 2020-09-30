@@ -7,27 +7,21 @@ import ArticleUser from '../../Article/ArticleUser/ArticleUser';
 import Button from '../../Button/Button';
 import { CommentAddProps } from './CommentAdd.type';
 import Textarea from '../../Textarea/Textarea';
-import { post } from '../../../../api';
+import { createComment } from '../../../../services/commentService/commentService';
 import { useAuth } from '../../../Contexts/AuthContext';
-
-const useCreateComment = (slug: string) => {
-  return useMutation(
-    (body: { body: string }) =>
-      post(`/articles/${slug}/comments`, { comment: body }),
-    {
-      onSuccess: () => queryCache.refetchQueries(`comments-${slug}`),
-    },
-  );
-};
 
 const CommentAdd: React.FC<CommentAddProps> = ({ slug }): JSX.Element => {
   const { user } = useAuth();
   const [commentText, setCommentText] = useState<string>('');
-  const [mutate] = useCreateComment(slug);
+  const [mutate] = useMutation(createComment, {
+    onSuccess: () => {
+      queryCache.refetchQueries(`comments-${slug}`);
+    },
+  });
 
   const handleClick = () => {
     setCommentText('');
-    mutate({ body: commentText });
+    mutate({ slug, commentText });
   };
 
   return (

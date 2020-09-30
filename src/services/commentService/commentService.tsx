@@ -1,16 +1,34 @@
 import { del, post } from '../../api';
 
-import { Profile } from '../../hooks/useProfile';
+import { Comment } from '../../components/ui/Comment/Comment.type';
+
+const url = `/articles/`;
 
 export const createComment = async ({
   slug,
-  body,
+  commentText,
 }: {
   slug: string;
-  body: string;
-}): Promise<Profile> => {
-  const url = `/articles/${slug}/comments`;
-  const response = post(url, { comment: body });
+  commentText: string;
+}): Promise<Comment> => {
+  const response = await post<{ comment: Comment }>(`${url}${slug}/comments`, {
+    comment: {
+      body: commentText,
+    },
+  });
 
-  return response.profile;
+  return response.comment;
+};
+
+export const deleteComment = async ({
+  slug,
+  id,
+}: {
+  slug: string;
+  id: number;
+}): Promise<Comment> => {
+  const response = await del<{ comment: Comment }>(
+    `${url}${slug}/comments/${id}`,
+  );
+  return response.comment;
 };

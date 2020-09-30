@@ -12,6 +12,7 @@ const CommentList: React.FC<CommentListProps> = ({
   slug,
 }): JSX.Element => {
   const { user } = useAuth();
+
   return (
     <div>
       <div className="comment-list__title">
@@ -19,7 +20,7 @@ const CommentList: React.FC<CommentListProps> = ({
       </div>
       {!user ? (
         <div>
-          <Link to="/signin">Sign in</Link> or <Link to="/signup">sign up</Link>{' '}
+          <Link to="/signin">Sign in</Link> or <Link to="/signup">sign up</Link>
           to add comments on this article.
         </div>
       ) : (
@@ -27,13 +28,9 @@ const CommentList: React.FC<CommentListProps> = ({
       )}
       {comments.map((comment) => (
         <Comment
-          updatedAt={comment.updatedAt}
-          createdAt={comment.createdAt}
-          author={comment.author}
+          {...comment}
           currentUser={user?.username}
-          body={comment.body}
           key={comment.id}
-          id={comment.id}
           slug={slug}
         />
       ))}

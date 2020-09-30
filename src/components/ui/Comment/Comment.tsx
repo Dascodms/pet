@@ -1,12 +1,12 @@
 import './Comment.scss';
 
-import React, { useEffect } from 'react';
+import { queryCache, useMutation } from 'react-query';
 
 import ArticleUser from '../Article/ArticleUser/ArticleUser';
 import { Comment as CommentProps } from './Comment.type';
 import DeleteButton from '../DeleteButton/DeleteButton';
-import { MdDeleteForever } from 'react-icons/md';
-import { useDeleteComment } from '../../../hooks/useDeleteComment';
+import React from 'react';
+import { deleteComment } from '../../../services/commentService/commentService';
 
 const Comment: React.FC<CommentProps> = ({
   body,
@@ -17,11 +17,27 @@ const Comment: React.FC<CommentProps> = ({
   slug,
 }): JSX.Element => {
   const { image, username } = author;
-  const [mutate, { isLoading }] = useDeleteComment(slug, id);
+  const [mutate] = useMutation(deleteComment, {
+    onMutate: ({ slug, id }) => {
+      queryCache.cancelQueries(`comments-${slug}`);
 
-  useEffect(() => console.log(id));
+      const previousComments = queryCache.getQueryData(`comments-${slug}`);
+
+      queryCache.setQueryData(`comments-${slug}`, (old: CommentProps[]) =>
+        old.filter((comment) => comment.id !== id),
+      );
+
+      return () =>
+        queryCache.setQueryData(`comments-${slug}`, previousComments);
+    },
+    onError: (rollback: () => void) => rollback(),
+    onSettled: () => {
+      queryCache.invalidateQueries(`comments-${slug}`);
+    },
+  });
+
   const handleRemove = () => {
-    mutate();
+    mutate({ slug, id });
   };
 
   return (
@@ -35,7 +51,7 @@ const Comment: React.FC<CommentProps> = ({
           username={username}
         />
         {currentUser === username ? (
-          <DeleteButton isLoading={isLoading} onClick={handleRemove} />
+          <DeleteButton isLoading={false} onClick={handleRemove} />
         ) : null}
       </div>
     </div>
