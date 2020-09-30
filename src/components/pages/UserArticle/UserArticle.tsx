@@ -27,10 +27,6 @@ const UserArticle: React.FC = (): JSX.Element => {
   } = useLocation<{ userArticle: UserArticle }>();
   const { isLoading, data, error, isFetched } = useComments(slug);
 
-  useEffect(() => {
-    console.log(isLoading, data, isFetched);
-  });
-
   return (
     <div className="user-article">
       <Banner backgroundColor="#333">

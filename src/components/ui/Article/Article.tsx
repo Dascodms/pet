@@ -1,14 +1,15 @@
 import './Article.scss';
 
+import { ArticleApi, ArticleProps } from './Article.type';
 import React, { useState } from 'react';
+import { queryCache, useMutation } from 'react-query';
 
 import ArticleModalTags from './ArticleModalTags/ArticleModalTags';
-import { ArticleProps } from './Article.type';
 import ArticleUser from './ArticleUser/ArticleUser';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { Link } from 'react-router-dom';
 import Tag from '../Tag/Tag';
-import { useFavoriteArticle } from '../../../hooks/useFavoriteArticle';
+import { favoriteArticle } from '../../../services/favoriteService/favoriteService';
 
 const Article: React.FC<ArticleProps> = ({
   article,
@@ -27,10 +28,43 @@ const Article: React.FC<ArticleProps> = ({
     author: { image, username },
   } = article;
   const [showTags, setShowTags] = useState<boolean>(false);
-  const [mutate, { isLoading, isIdle }] = useFavoriteArticle(slug, favorited);
+  const [mutate] = useMutation(favoriteArticle, {
+    onMutate: ({ slug, favorited }) => {
+      queryCache.cancelQueries('articles');
+
+      const previousArticles = queryCache.getQueryData('articles');
+
+      queryCache.setQueryData(
+        'articles',
+        ({ articles, articlesCount }: ArticleApi) => {
+          return {
+            articlesCount,
+            articles: articles.map((article) => {
+              if (article.slug === slug) {
+                return {
+                  ...article,
+                  favorited: !favorited,
+                  favoritesCount: !favorited
+                    ? article.favoritesCount + 1
+                    : article.favoritesCount - 1,
+                };
+              }
+              return article;
+            }),
+          };
+        },
+      );
+
+      return () => queryCache.setQueryData('articles', previousArticles);
+    },
+    onError: (rollback: () => void) => rollback(),
+    onSettled: () => {
+      queryCache.invalidateQueries('articles');
+    },
+  });
 
   const handleClickFavoriteButton = () => {
-    mutate();
+    mutate({ slug, favorited });
   };
 
   return (
@@ -57,7 +91,7 @@ const Article: React.FC<ArticleProps> = ({
       <div className="article__wrapper">
         <ArticleUser username={username} image={image} createdAt={createdAt} />
         <FavoriteButton
-          disabled={isLoading}
+          disabled={false}
           favorited={favorited}
           handleClickFavoriteButton={handleClickFavoriteButton}
         >
