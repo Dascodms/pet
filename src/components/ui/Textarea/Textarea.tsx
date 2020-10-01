@@ -8,14 +8,34 @@ const Textarea: React.FC<TextareaProps> = ({
   placeholder,
   value,
   onChange,
+  name,
+  error,
+  register,
+  classes,
 }): JSX.Element => (
-  <textarea
-    value={value}
-    onChange={onChange}
-    rows={rows}
-    placeholder={placeholder}
-    className="textarea"
-  ></textarea>
+  <>
+    {name ? (
+      <div className={`textarea ${classes ? classes : ''}`}>
+        <label>
+          <textarea
+            className="textarea__element"
+            ref={register}
+            placeholder={placeholder}
+            name={name}
+          />
+        </label>
+        {error && <div className="textarea__error">{error.message}</div>}
+      </div>
+    ) : (
+      <textarea
+        value={value}
+        onChange={onChange}
+        rows={rows}
+        placeholder={placeholder}
+        className="textarea"
+      ></textarea>
+    )}
+  </>
 );
 
 export default Textarea;

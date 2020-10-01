@@ -1,0 +1,85 @@
+import Button from '../../ui/Button/Button';
+import Container from '../../ui/Container/Container';
+import Input from '../../ui/Input/Input';
+import React from 'react';
+import Textarea from '../../ui/Textarea/Textarea';
+import Title from '../../ui/Titile/Title';
+import { createArticle } from '../../../services/articleService/articleService';
+import { createPostType } from './CreatePost.type';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+
+const CreatePost: React.FC = () => {
+  const { register, handleSubmit, errors, reset } = useForm<createPostType>({
+    mode: 'onTouched',
+  });
+
+  const [mutate, { isLoading }] = useMutation(createArticle, {
+    onSuccess(response) {
+      console.log(response);
+    },
+    onError(e) {
+      console.log(e);
+    },
+  });
+
+  const onSubmit = (data: createPostType): void => {
+    if (data.tagList) {
+      data.tagList = (data.tagList as string).split(' ');
+    }
+    mutate(data);
+    reset();
+  };
+
+  return (
+    <Container classes="container__form">
+      <Title title="Create Post" />
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          register={register({
+            required: 'Required field',
+          })}
+          type="text"
+          name="title"
+          placeholder="Article title"
+          classes="input__form"
+          error={errors.title}
+        />
+
+        <Input
+          register={register({
+            required: 'Required field',
+          })}
+          type="text"
+          name="description"
+          placeholder="What's this article about?"
+          classes="input__form"
+          error={errors.description}
+        />
+
+        <Textarea
+          register={register({
+            required: 'Required field',
+          })}
+          name="body"
+          placeholder="Write your article (in markdown)"
+          error={errors.body}
+          classes="textarea__form"
+        ></Textarea>
+
+        <Input
+          register={register()}
+          type="text"
+          name="tagList"
+          placeholder="Enter tags"
+          classes="input__form"
+        />
+        <Button disabled={isLoading} flexEnd submit>
+          Create Post
+        </Button>
+      </form>
+    </Container>
+  );
+};
+
+export default CreatePost;

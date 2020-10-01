@@ -28,8 +28,8 @@ const Header = (): JSX.Element => {
               <Link className="link" to="/">
                 Home
               </Link>
-              <Link className="link" to="/signup">
-                New Post
+              <Link className="link" to="/create">
+                Create Post
               </Link>
               <Link className="link" to="/">
                 Settings

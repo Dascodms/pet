@@ -1,5 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
+import CreatePost from '../pages/CreatePost/CreatePost';
 import Home from '../pages/Home/Home';
 import Profile from '../pages/Profile/Profile';
 import React from 'react';
@@ -19,6 +20,9 @@ const Routes = (): JSX.Element => {
       </Route>
       <Route path="/home">
         <Home />
+      </Route>
+      <Route path="/create">
+        <CreatePost />
       </Route>
       <Route path="/article/:user">
         <UserArticle />

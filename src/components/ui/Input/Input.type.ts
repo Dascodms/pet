@@ -6,5 +6,5 @@ export type InputProps = {
   placeholder: string;
   register: any;
   classes?: string;
-  error: FieldError;
+  error?: FieldError;
 };
