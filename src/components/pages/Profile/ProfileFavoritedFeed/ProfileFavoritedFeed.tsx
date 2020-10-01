@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { queryCache, usePaginatedQuery, useQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import Article from '../../../ui/Article/Article';
 import Loader from '../../../ui/Loader/Loader';
 import Paginate from '../../../ui/Paginate/Paginate';
 import { ProfileFavoritedFeedProps } from './ProfileFavoritedFeed.type';
-import React from 'react';
-import { useArticlesProfileFavoritedFeed } from '../../../../hooks/useArticlesProfileFavoritedFeed';
+import { getArticlesByUserFavorited } from '../../../../services/articleService/articleService';
 
 const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
   setPage,
@@ -14,10 +15,18 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
 }): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { isLoading, data, error } = useArticlesProfileFavoritedFeed(
-    page,
-    username,
+  const [queryKey, setQueryKey] = useState(null);
+  const { isLoading, resolvedData, error } = usePaginatedQuery(
+    ['articles-profile-favorites', page, username],
+    getArticlesByUserFavorited,
   );
+
+  useEffect(() => {
+    setQueryKey(
+      queryCache.getQuery(['articles-profile-favorites', page, username])
+        .queryKey,
+    );
+  }, [page, username]);
 
   const onPageChange = (page: number) => {
     setPage(page);
@@ -39,17 +48,18 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
 
   return (
     <div>
-      {data.articles.map((article) => (
+      {resolvedData.articles.map((article) => (
         <Article
           setPage={setPage}
           key={article.updatedAt}
           article={article}
           classes="article--mb20"
+          queryKey={queryKey}
         />
       ))}
-      {isLoading || data.articlesCount <= 10 ? null : (
+      {isLoading || resolvedData.articlesCount <= 10 ? null : (
         <Paginate
-          count={data.articlesCount / 10}
+          count={resolvedData.articlesCount / 10}
           page={page}
           onPageChange={onPageChange}
         />

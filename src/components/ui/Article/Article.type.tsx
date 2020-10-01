@@ -27,6 +27,7 @@ export type ArticleProps = {
   article: Article;
   classes: string;
   setPage: (page: number) => void;
+  queryKey?: string;
 };
 
 export type ArticleUserProps = {

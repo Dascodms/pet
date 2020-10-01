@@ -15,6 +15,7 @@ const Article: React.FC<ArticleProps> = ({
   article,
   classes,
   setPage,
+  queryKey,
 }): JSX.Element => {
   const {
     body,
@@ -30,12 +31,12 @@ const Article: React.FC<ArticleProps> = ({
   const [showTags, setShowTags] = useState<boolean>(false);
   const [mutate] = useMutation(favoriteArticle, {
     onMutate: ({ slug, favorited }) => {
-      queryCache.cancelQueries('articles');
+      queryCache.cancelQueries(queryKey);
 
-      const previousArticles = queryCache.getQueryData('articles');
+      const previousArticles = queryCache.getQueryData(queryKey);
 
       queryCache.setQueryData(
-        'articles',
+        queryKey,
         ({ articles, articlesCount }: ArticleApi) => {
           return {
             articlesCount,
@@ -55,11 +56,11 @@ const Article: React.FC<ArticleProps> = ({
         },
       );
 
-      return () => queryCache.setQueryData('articles', previousArticles);
+      return () => queryCache.setQueryData(queryKey, previousArticles);
     },
     onError: (rollback: () => void) => rollback(),
     onSettled: () => {
-      queryCache.invalidateQueries('articles');
+      queryCache.invalidateQueries(queryKey);
     },
   });
 
