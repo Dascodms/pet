@@ -2,7 +2,6 @@
 
 .button {
   padding: 10px 10px;
-  width: 115px;
   color: white;
   border: none;
   background-color: $green;
@@ -20,5 +19,29 @@
   &:disabled {
     background-color: $grey;
     cursor: not-allowed;
+  }
+  &__profile {
+    align-self: flex-end;
+    background-color: $white;
+    color: $black;
+    &:hover {
+      color:$white;
+    }
+  }
+
+  &__remove {
+    background-color: transparent;
+    border: 1px solid $error;
+
+    &:hover {
+      background-color: $error;
+    }
+
+    &:disabled {
+      border: 1px solid $grey;
+    }
+  }
+  &__flex-end {
+    align-self: flex-end;
   }
 }

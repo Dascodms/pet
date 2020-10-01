@@ -9,6 +9,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   flexEnd,
   children,
+  classes,
 }) => {
   return (
     <>
@@ -24,7 +25,9 @@ const Button: React.FC<ButtonProps> = ({
         <button
           disabled={disabled}
           onClick={() => onClick()}
-          className={`button ${flexEnd ? 'button--flex-end' : ''}`}
+          className={`button ${flexEnd ? 'button--flex-end' : ''} ${
+            classes ? classes : ''
+          } `}
         >
           {children}
         </button>
