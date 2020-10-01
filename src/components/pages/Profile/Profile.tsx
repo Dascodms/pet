@@ -1,9 +1,8 @@
 import './Profile.scss';
 
-import { Profile as ProfileType, useProfile } from '../../../hooks/useProfile';
 import React, { useState } from 'react';
 import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
-import { queryCache, useMutation } from 'react-query';
+import { queryCache, useMutation, useQuery } from 'react-query';
 
 import Banner from '../../ui/Banner/Banner';
 import Container from '../../ui/Container/Container';
@@ -12,10 +11,12 @@ import Loader from '../../ui/Loader/Loader';
 import ProfileFavoritedFeed from './ProfileFavoritedFeed/ProfileFavoritedFeed';
 import ProfileFeed from './ProfileFeed/ProfileFeed';
 import ProfileTabs from './ProfileTabs/ProfileTabs';
+import { Profile as ProfileType } from './Profile.type';
 import QueryString from 'query-string';
 import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
 import { followUser } from '../../../services/followService/followService';
+import { getProfile } from '../../../services/profileService/profileService';
 
 const Profile: React.FC = (): JSX.Element => {
   const { user }: { user: string } = useParams();
@@ -25,29 +26,24 @@ const Profile: React.FC = (): JSX.Element => {
     const { page } = QueryString.parse(location.search);
     return +page - 1;
   });
-  const { data, isLoading } = useProfile(user);
+  const { data, isLoading } = useQuery(['profile', user], getProfile);
 
   const [mutate] = useMutation(followUser, {
     onMutate: (profile) => {
-      queryCache.cancelQueries(`profiles-${data.username}`);
+      queryCache.cancelQueries(['profile', user]);
 
-      const previousProfile = queryCache.getQueryData(
-        `profiles-${data.username}`,
-      );
+      const previousProfile = queryCache.getQueryData(['profile', user]);
 
-      queryCache.setQueryData(
-        `profiles-${data.username}`,
-        (old: ProfileType) => {
-          const { following } = profile;
-          return { ...old, following: !following };
-        },
-      );
+      queryCache.setQueryData(['profile', user], (old: ProfileType) => {
+        const { following } = profile;
+        return { ...old, following: !following };
+      });
 
-      return () => queryCache.setQueryData('todos', previousProfile);
+      return () => queryCache.setQueryData(['profile', user], previousProfile);
     },
     onError: (rollback: () => void) => rollback(),
     onSettled: () => {
-      queryCache.invalidateQueries(`profiles-${data.username}`);
+      queryCache.invalidateQueries(['profile', user]);
     },
   });
 
