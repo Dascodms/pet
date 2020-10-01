@@ -3,7 +3,7 @@ import './Tag.scss';
 import { NavLink } from 'react-router-dom';
 import React from 'react';
 import { TagProps } from './Tag.type';
-import { useTab } from '../../Contexts/TabContextComponent';
+import { useTab } from '../../Contexts/TabContext';
 
 const Tag: React.FC<TagProps> = ({ tag, classes, setPage }): JSX.Element => {
   const { tab, setTab } = useTab();
