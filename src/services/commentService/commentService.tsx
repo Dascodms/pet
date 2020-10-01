@@ -1,8 +1,16 @@
-import { del, post } from '../../api';
+import { del, get, post } from '../../api';
 
 import { Comment } from '../../components/ui/Comment/Comment.type';
 
 const url = `/articles/`;
+
+export const getComments = async (
+  key: string,
+  slug: string,
+): Promise<Comment[]> => {
+  const response = await get<{ comments: Comment[] }>(`${url}${slug}/comments`);
+  return response.comments;
+};
 
 export const createComment = async ({
   slug,

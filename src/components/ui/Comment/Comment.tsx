@@ -19,20 +19,20 @@ const Comment: React.FC<CommentProps> = ({
   const { image, username } = author;
   const [mutate] = useMutation(deleteComment, {
     onMutate: ({ slug, id }) => {
-      queryCache.cancelQueries(`comments-${slug}`);
+      queryCache.cancelQueries(['comments', slug]);
 
-      const previousComments = queryCache.getQueryData(`comments-${slug}`);
+      const previousComments = queryCache.getQueryData(['comments', slug]);
 
-      queryCache.setQueryData(`comments-${slug}`, (old: CommentProps[]) =>
+      queryCache.setQueryData(['comments', slug], (old: CommentProps[]) =>
         old.filter((comment) => comment.id !== id),
       );
 
       return () =>
-        queryCache.setQueryData(`comments-${slug}`, previousComments);
+        queryCache.setQueryData(['comments', slug], previousComments);
     },
     onError: (rollback: () => void) => rollback(),
     onSettled: () => {
-      queryCache.invalidateQueries(`comments-${slug}`);
+      queryCache.invalidateQueries(['comments', slug]);
     },
   });
 

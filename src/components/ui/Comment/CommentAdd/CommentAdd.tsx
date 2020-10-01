@@ -15,7 +15,7 @@ const CommentAdd: React.FC<CommentAddProps> = ({ slug }): JSX.Element => {
   const [commentText, setCommentText] = useState<string>('');
   const [mutate] = useMutation(createComment, {
     onSuccess: () => {
-      queryCache.refetchQueries(`comments-${slug}`);
+      queryCache.refetchQueries(['comments', slug]);
     },
   });
 
