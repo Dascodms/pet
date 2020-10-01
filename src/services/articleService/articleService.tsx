@@ -1,5 +1,7 @@
-import { ArticleApi } from '../../components/ui/Article/Article.type';
-import { get } from '../../api';
+import { Article, ArticleApi } from '../../components/ui/Article/Article.type';
+import { del, get, post } from '../../api';
+
+import { createPostType } from '../../components/pages/CreatePost/CreatePost.type';
 
 const url = '/articles?limit=10';
 
@@ -50,5 +52,15 @@ export const getArticlesByUserFavorited = async (
   const response = get<ArticleApi>(
     `${url}&favorited=${username}&offset=${page ? page * 10 : 0}`,
   );
+  return response;
+};
+
+export const createArticle = async (body: createPostType): Promise<Article> => {
+  const response = post<Article>('/articles', { article: body });
+  return response;
+};
+
+export const deleteArticle = async (slug: string): Promise<Article> => {
+  const response = del<Article>(`/articles/${slug}`);
   return response;
 };
