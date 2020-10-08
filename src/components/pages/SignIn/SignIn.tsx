@@ -6,7 +6,7 @@ import Button from '../../ui/Button/Button';
 import Container from '../../ui/Container/Container';
 import Input from '../../ui/Input/Input';
 import React from 'react';
-import Title from '../../ui/Titile/Title';
+import Title from '../../ui/Title/Title';
 import { User } from '../../../hooks/useUser';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useForm } from 'react-hook-form';
@@ -46,7 +46,7 @@ const SingIn = (): JSX.Element => {
   };
 
   return (
-    <Container classes="container__form">
+    <Container className="container__form">
       <Title title="Sign In" />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -56,7 +56,7 @@ const SingIn = (): JSX.Element => {
           type="email"
           name="email"
           placeholder="name@example.com"
-          classes="input__form"
+          className="input__form"
           error={errors.email}
         />
         <Input
@@ -66,7 +66,7 @@ const SingIn = (): JSX.Element => {
           type="password"
           name="password"
           placeholder="Password"
-          classes="input__form"
+          className="input__form"
           error={errors.password}
         />
         <Button disabled={isLoading} flexEnd submit>

@@ -1,14 +1,22 @@
 import '../Article.scss';
 import './ArticleModalTags.scss';
 
-import { ArticleModalTagsProps } from '../Article.type';
-import React from 'react';
+import React, { FC } from 'react';
+
 import Tag from '../../Tag/Tag';
 
-const ArticleModalTags: React.FC<ArticleModalTagsProps> = ({
+type Props = {
+  setShowTags: (arg: boolean) => void;
+  title: string;
+  tags: string[];
+  setPage: (page: number) => void;
+};
+
+const ArticleModalTags: FC<Props> = ({
   setShowTags,
   title,
   tags,
+  setPage,
 }): JSX.Element => {
   return (
     <div onMouseLeave={() => setShowTags(false)} className="article__tags">
@@ -16,7 +24,7 @@ const ArticleModalTags: React.FC<ArticleModalTagsProps> = ({
         Tags in the article {title}
       </div>
       {tags.map((tag) => (
-        <Tag tag={tag} key={Math.random() * 1000} />
+        <Tag setPage={setPage} tag={tag} key={Math.random() * 1000} />
       ))}
     </div>
   );

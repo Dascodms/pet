@@ -1,15 +1,13 @@
 import './Header.scss';
-import '../../assets/scss/link.scss';
+import '../../../assets/scss/link.scss';
 
-import React, { useEffect } from 'react';
-
-import Container from '../ui/Container/Container';
+import Container from '../Container/Container';
 import HeaderWrapper from './ui/HeaderWrapper/HeaderWrapper';
 import { Link } from 'react-router-dom';
-import Logo from '../ui/Logo/Logo';
-import { TOKEN_NAME } from '../../api';
-import { useAuth } from '../Contexts/AuthContext';
-import { useUser } from '../../hooks/useUser';
+import Logo from '../Logo/Logo';
+import React from 'react';
+import { TOKEN_NAME } from '../../../api';
+import { useAuth } from '../../Contexts/AuthContext';
 
 const Header = (): JSX.Element => {
   const { user, setUser } = useAuth();

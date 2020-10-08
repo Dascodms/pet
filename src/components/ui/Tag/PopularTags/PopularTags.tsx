@@ -1,13 +1,17 @@
 import './PopularTags.scss';
 
-import Loader from '../../ui/Loader/Loader';
-import { PopularTagsProps } from './PopularTags.type';
-import React from 'react';
-import Tag from '../../ui/Tag/Tag';
-import { getTags } from '../../../services/tagsService/tagsService';
+import React, { FC } from 'react';
+
+import Loader from '../../Loader/Loader';
+import Tag from '../Tag';
+import { getTags } from '../../../../services/tagsService/tagsService';
 import { useQuery } from 'react-query';
 
-const PopularTags: React.FC<PopularTagsProps> = ({ setPage }): JSX.Element => {
+type Props = {
+  setPage: (page: number) => void;
+};
+
+const PopularTags: FC<Props> = ({ setPage }): JSX.Element => {
   const { isLoading, data, error } = useQuery('tags', getTags, {
     refetchOnWindowFocus: false,
   });
@@ -19,7 +23,7 @@ const PopularTags: React.FC<PopularTagsProps> = ({ setPage }): JSX.Element => {
       ) : (
         data.map((tag) => (
           <Tag
-            classes="tag__popular"
+            className="tag__popular"
             key={Date.now() + Math.random() * 1000}
             tag={tag}
             setPage={setPage}

@@ -3,7 +3,7 @@ import Container from '../../ui/Container/Container';
 import Input from '../../ui/Input/Input';
 import React from 'react';
 import Textarea from '../../ui/Textarea/Textarea';
-import Title from '../../ui/Titile/Title';
+import Title from '../../ui/Title/Title';
 import { createArticle } from '../../../services/articleService/articleService';
 import { createPostType } from './CreatePost.type';
 import { useForm } from 'react-hook-form';
@@ -32,7 +32,7 @@ const CreatePost: React.FC = () => {
   };
 
   return (
-    <Container classes="container__form">
+    <Container className="container__form">
       <Title title="Create Post" />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -42,7 +42,7 @@ const CreatePost: React.FC = () => {
           type="text"
           name="title"
           placeholder="Article title"
-          classes="input__form"
+          className="input__form"
           error={errors.title}
         />
 
@@ -53,7 +53,7 @@ const CreatePost: React.FC = () => {
           type="text"
           name="description"
           placeholder="What's this article about?"
-          classes="input__form"
+          className="input__form"
           error={errors.description}
         />
 
@@ -64,7 +64,7 @@ const CreatePost: React.FC = () => {
           name="body"
           placeholder="Write your article (in markdown)"
           error={errors.body}
-          classes="textarea__form"
+          className="textarea__form"
         ></Textarea>
 
         <Input
@@ -72,7 +72,7 @@ const CreatePost: React.FC = () => {
           type="text"
           name="tagList"
           placeholder="Enter tags"
-          classes="input__form"
+          className="input__form"
         />
         <Button disabled={isLoading} flexEnd submit>
           Create Post

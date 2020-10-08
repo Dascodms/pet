@@ -1,11 +1,17 @@
 import './Tag.scss';
 
+import React, { FC } from 'react';
+
 import { NavLink } from 'react-router-dom';
-import React from 'react';
-import { TagProps } from './Tag.type';
 import { useTab } from '../../Contexts/TabContext';
 
-const Tag: React.FC<TagProps> = ({ tag, classes, setPage }): JSX.Element => {
+type Props = {
+  tag: string;
+  className?: string;
+  setPage: (page: number) => void;
+};
+
+const Tag: FC<Props> = ({ tag, setPage, className = '' }): JSX.Element => {
   const { tab, setTab } = useTab();
 
   const onClickHandle = () => {
@@ -17,8 +23,7 @@ const Tag: React.FC<TagProps> = ({ tag, classes, setPage }): JSX.Element => {
     <NavLink
       to={`/home/feed-by-tag?tag=${tag}`}
       onClick={onClickHandle}
-      className={`tag ${tab === tag ? 'tag__active' : ''} ${
-        classes ? classes : ''
+      className={`tag ${tab === tag ? 'tag__active' : ''} ${className}
       }`}
     >
       {tag}

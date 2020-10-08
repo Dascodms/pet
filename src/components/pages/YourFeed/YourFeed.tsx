@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { queryCache, usePaginatedQuery, useQuery } from 'react-query';
+import React, { useCallback, useEffect, useState } from 'react';
+import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Article from '../../ui/Article/Article';
+import ArticleCard from '../../ui/Article/ArticleCard';
 import { FeedPage } from '../../../global-types/Feed.type';
 import Loader from '../../ui/Loader/Loader';
 import Paginate from '../../ui/Paginate/Paginate';
@@ -21,19 +21,22 @@ const YourFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
     setQueryKey(queryCache.getQuery(['articles-feed', page]).queryKey);
   }, [page]);
 
-  const onPageChange = (page: number) => {
-    setPage(page);
+  const onPageChange = useCallback(
+    (page: number) => {
+      setPage(page);
 
-    history.push({
-      pathname: location.pathname,
-      search: page ? `/feed&page=${++page}` : `/feed`,
-    });
+      history.push({
+        pathname: location.pathname,
+        search: page ? `/feed&page=${++page}` : `/feed`,
+      });
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    },
+    [page],
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -43,7 +46,7 @@ const YourFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
     <div>
       {resolvedData.articlesCount ? (
         resolvedData.articles.map((article) => (
-          <Article
+          <ArticleCard
             setPage={setPage}
             key={article.updatedAt}
             article={article}

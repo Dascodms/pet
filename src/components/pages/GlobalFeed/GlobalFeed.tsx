@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Article from '../../ui/Article/Article';
+import ArticleCard from '../../ui/Article/ArticleCard';
 import { FeedPage } from '../../../global-types/Feed.type';
 import Loader from '../../ui/Loader/Loader';
 import Paginate from '../../ui/Paginate/Paginate';
@@ -18,22 +18,26 @@ const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
   );
 
   useEffect(() => {
+    console.log('hh');
     setQueryKey(queryCache.getQuery(['articles-global', page]).queryKey);
   }, [page]);
 
-  const onPageChange = (page: number) => {
-    setPage(page);
+  const onPageChange = useCallback(
+    (page: number) => {
+      setPage(page);
 
-    history.push({
-      pathname: location.pathname,
-      search: page ? `?page=${++page}` : '',
-    });
+      history.push({
+        pathname: location.pathname,
+        search: page ? `?page=${++page}` : '',
+      });
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    },
+    [page],
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -42,7 +46,7 @@ const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
   return (
     <div>
       {resolvedData.articles.map((article) => (
-        <Article
+        <ArticleCard
           setPage={setPage}
           key={article.updatedAt}
           article={article}
@@ -50,7 +54,7 @@ const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
           queryKey={queryKey}
         />
       ))}
-      {isLoading ? null : (
+      {isLoading || resolvedData.articlesCount <= 10 ? null : (
         <Paginate
           count={resolvedData.articlesCount / 10}
           page={page}

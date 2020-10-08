@@ -5,7 +5,7 @@ import { Redirect, Route, useRouteMatch } from 'react-router-dom';
 
 import Container from '../../ui/Container/Container';
 import GlobalFeed from '../GlobalFeed/GlobalFeed';
-import PopularTags from '../../Containers/PopularTags/PopularTags';
+import PopularTags from '../../ui/Tag/PopularTags/PopularTags';
 import QueryString from 'query-string';
 import Tabs from '../../ui/Tabs/Tabs';
 import TagFeed from '../TagFeed/TagFeed';
@@ -14,6 +14,7 @@ import YourFeed from '../YourFeed/YourFeed';
 const Home = (): JSX.Element => {
   const { path } = useRouteMatch();
   const [page, setPage] = useState<number>(() => {
+    console.log('ff');
     const { page } = QueryString.parse(location.search);
     return +page - 1;
   });

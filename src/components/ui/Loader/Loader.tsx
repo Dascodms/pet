@@ -1,8 +1,8 @@
 import './Loader.scss';
 
-import React from 'react';
+import React, { FC } from 'react';
 
-const Loader = (): JSX.Element => {
+const Loader: FC = (): JSX.Element => {
   return (
     <div className="lds-ring">
       <div></div>

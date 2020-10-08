@@ -1,25 +1,26 @@
 import './UserAvatar.scss';
 
-import { Link } from 'react-router-dom';
-import React from 'react';
-import { UserAvatarProps } from './UserAvatar.type';
+import React, { FC } from 'react';
 
-const UserAvatar: React.FC<UserAvatarProps> = ({
+import { Link } from 'react-router-dom';
+
+type Props = {
+  image: string;
+  username: string;
+  className?: string;
+};
+
+const UserAvatar: FC<Props> = ({
   image,
   username,
-  size,
-  marginRight,
-  marginBottom,
+  className = '',
 }): JSX.Element => {
   return (
     <Link
       to={`/profile/${username}`}
-      className={`user-avatar `}
+      className={`user-avatar ${className}`}
       style={{
-        marginRight,
-        marginBottom,
         backgroundImage: `url(${image})`,
-        ...size,
       }}
     ></Link>
   );

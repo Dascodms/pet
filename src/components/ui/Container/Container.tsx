@@ -1,16 +1,14 @@
 import './Container.scss';
 
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 
-type ContainerProps = {
+type Props = {
   children: ReactNode;
-  classes?: string;
+  className?: string;
 };
 
-const Container: React.FC<ContainerProps> = ({ children, classes }) => {
-  return (
-    <div className={`container ${classes ? classes : ''}`}>{children}</div>
-  );
+const Container: FC<Props> = ({ children, className = '' }) => {
+  return <div className={`container ${className}`}>{children}</div>;
 };
 
 export default Container;

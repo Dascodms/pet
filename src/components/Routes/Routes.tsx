@@ -30,9 +30,6 @@ const Routes = (): JSX.Element => {
       <Route path="/profile/:user">
         <Profile />
       </Route>
-      <Route path="/">
-        <Redirect to="/home" />
-      </Route>
     </Switch>
   );
 };

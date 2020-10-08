@@ -1,9 +1,21 @@
 import './Textarea.scss';
 
-import React from 'react';
-import { TextareaProps } from './Textarea.type';
+import React, { FC } from 'react';
 
-const Textarea: React.FC<TextareaProps> = ({
+import { FieldError } from 'react-hook-form';
+
+type Props = {
+  rows?: number;
+  placeholder: string;
+  value?: string;
+  onChange?: (e: React.FormEvent<EventTarget>) => void;
+  register?: any;
+  name?: string;
+  error?: FieldError;
+  className?: string;
+};
+
+const Textarea: FC<Props> = ({
   rows,
   placeholder,
   value,
@@ -11,11 +23,11 @@ const Textarea: React.FC<TextareaProps> = ({
   name,
   error,
   register,
-  classes,
+  className = '',
 }): JSX.Element => (
   <>
     {name ? (
-      <div className={`textarea ${classes ? classes : ''}`}>
+      <div className={`textarea ${className}`}>
         <label>
           <textarea
             className="textarea__element"

@@ -1,9 +1,17 @@
 import './Button.scss';
 
-import { ButtonProps } from './Button.type';
-import React from 'react';
+import React, { FC } from 'react';
 
-const Button: React.FC<ButtonProps> = ({
+type Props = {
+  submit?: boolean;
+  flexEnd?: boolean;
+  disabled?: boolean;
+  onClick?: () => void;
+  children: React.ReactNode;
+  classes?: string;
+};
+
+const Button: FC<Props> = ({
   onClick,
   submit,
   disabled,

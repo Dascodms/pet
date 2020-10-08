@@ -1,8 +1,13 @@
-import { DeleteButtonProps } from './DeleteButton.type';
-import { MdDeleteForever } from 'react-icons/md';
-import React from 'react';
+import React, { FC } from 'react';
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ isLoading, onClick }) => {
+import { MdDeleteForever } from 'react-icons/md';
+
+type Props = {
+  isLoading?: boolean;
+  onClick: () => void;
+};
+
+const DeleteButton: FC<Props> = ({ isLoading, onClick }) => {
   return (
     <MdDeleteForever
       onClick={onClick}

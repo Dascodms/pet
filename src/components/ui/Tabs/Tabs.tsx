@@ -1,13 +1,16 @@
 import './Tabs.scss';
 
 import { NavLink, useRouteMatch } from 'react-router-dom';
+import React, { FC } from 'react';
 
-import React from 'react';
-import { TabsProps } from './Tabs.type';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useTab } from '../../Contexts/TabContext';
 
-const Tabs: React.FC<TabsProps> = ({ setPage }): JSX.Element => {
+type Props = {
+  setPage: (page: number) => void;
+};
+
+const Tabs: FC<Props> = ({ setPage }): JSX.Element => {
   const { tab } = useTab();
   const { user } = useAuth();
   const { url } = useRouteMatch();

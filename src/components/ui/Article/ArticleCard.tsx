@@ -1,17 +1,27 @@
 import './Article.scss';
 
-import { ArticleApi, ArticleProps } from './Article.type';
-import React, { useState } from 'react';
+import { Article, ArticleApi } from './Article.type';
+import React, { FC, useState } from 'react';
 import { queryCache, useMutation } from 'react-query';
 
 import ArticleModalTags from './ArticleModalTags/ArticleModalTags';
-import ArticleUser from './ArticleUser/ArticleUser';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+import Row from '../Row/Row';
 import Tag from '../Tag/Tag';
+import User from '../User/User';
+import UserAvatar from '../User/UserAvatar/UserAvatar';
 import { favoriteArticle } from '../../../services/favoriteService/favoriteService';
 
-const Article: React.FC<ArticleProps> = ({
+type Props = {
+  article: Article;
+  classes: string;
+  setPage: (page: number) => void;
+  queryKey?: string;
+};
+
+const ArticleCard: FC<Props> = ({
   article,
   classes,
   setPage,
@@ -89,8 +99,18 @@ const Article: React.FC<ArticleProps> = ({
         <div className="article__description">{description}</div>
         <button className="article__more link">Read more...</button>
       </Link>
+      <Row className="row--mt-20">
+        <UserAvatar
+          className="user-avatar__feed"
+          username={username}
+          image={image}
+        />
+        <div>
+          <User username={username} />
+          <Moment format="LL HH:mm">{createdAt}</Moment>
+        </div>
+      </Row>
       <div className="article__wrapper">
-        <ArticleUser username={username} image={image} createdAt={createdAt} />
         <FavoriteButton
           disabled={false}
           favorited={favorited}
@@ -101,7 +121,7 @@ const Article: React.FC<ArticleProps> = ({
         {tagList.slice(0, 4).map((tag) => (
           <Tag
             setPage={setPage}
-            classes="tag__feed"
+            className="tag__feed"
             tag={tag}
             key={Math.random() * 1000}
           />
@@ -114,6 +134,7 @@ const Article: React.FC<ArticleProps> = ({
             tags={tagList}
             title={title}
             setShowTags={setShowTags}
+            setPage={setPage}
           />
         )}
       </div>
@@ -121,4 +142,4 @@ const Article: React.FC<ArticleProps> = ({
   );
 };
 
-export default Article;
+export default ArticleCard;

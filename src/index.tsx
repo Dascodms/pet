@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 import App from './components/App';
 import { AuthProvider } from './components/Contexts/AuthContext';
+import { getArticles } from './services/articleService/articleService';
 
 ReactDOM.render(
   <AuthProvider>

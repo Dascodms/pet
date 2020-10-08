@@ -1,11 +1,10 @@
 import '../../../assets/scss/form.scss';
 
-import React, { useEffect } from 'react';
-
 import Button from '../../ui/Button/Button';
 import Container from '../../ui/Container/Container';
 import Input from '../../ui/Input/Input';
-import Title from '../../ui/Titile/Title';
+import React from 'react';
+import Title from '../../ui/Title/Title';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -23,11 +22,8 @@ const SignUp = (): JSX.Element => {
     reset();
   };
 
-  useEffect(() => {
-    console.log(errors);
-  });
   return (
-    <Container classes="container__form">
+    <Container className="container__form">
       <Title title="Sign Up" />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -41,7 +37,7 @@ const SignUp = (): JSX.Element => {
           type="text"
           name="username"
           placeholder="Username"
-          classes="input__form"
+          className="input__form"
           error={errors.username}
         />
         <Input
@@ -55,7 +51,7 @@ const SignUp = (): JSX.Element => {
           type="email"
           name="email"
           placeholder="name@example.com"
-          classes="input__form"
+          className="input__form"
           error={errors.email}
         />
         <Input
@@ -70,7 +66,7 @@ const SignUp = (): JSX.Element => {
           type="password"
           name="password"
           placeholder="Password"
-          classes="input__form"
+          className="input__form"
           error={errors.password}
         />
         <Button flexEnd submit>

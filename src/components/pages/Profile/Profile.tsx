@@ -5,6 +5,7 @@ import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { queryCache, useMutation, useQuery } from 'react-query';
 
 import Banner from '../../ui/Banner/Banner';
+import Button from '../../ui/Button/Button';
 import Container from '../../ui/Container/Container';
 import FollowButton from '../../ui/FollowButton/FollowButton';
 import Loader from '../../ui/Loader/Loader';
@@ -17,9 +18,11 @@ import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
 import { followUser } from '../../../services/followService/followService';
 import { getProfile } from '../../../services/profileService/profileService';
+import { useAuth } from '../../Contexts/AuthContext';
 
 const Profile: React.FC = (): JSX.Element => {
   const { user }: { user: string } = useParams();
+  const { user: authUser } = useAuth();
   const { path } = useRouteMatch();
   const location = useLocation();
   const [page, setPage] = useState<number>(() => {
@@ -55,26 +58,34 @@ const Profile: React.FC = (): JSX.Element => {
   if (isLoading) {
     return <Loader />;
   }
-
+  // history push settings page
   return (
     <div className="profile">
       <Banner backgroundColor="#333">
         <Container>
           <div className="profile__wrapper">
             <UserAvatar
-              marginBottom="10px"
-              size={{ width: '90px', height: '90px' }}
+              className="user-avatar--size-middle user-avatar--mb-10"
               username={data.username}
               image={data.image}
             />
-            <User white username={data.username} />
+            <User className="user--white" username={data.username} />
             <div>{data.bio}</div>
-            <FollowButton
-              classes="follow-button__profile"
-              following={data.following}
-              handleClick={handleClick}
-              username={data.username}
-            />
+            {authUser.username !== user ? (
+              <FollowButton
+                className="follow-button__profile"
+                following={data.following}
+                handleClick={handleClick}
+                username={data.username}
+              />
+            ) : (
+              <Button
+                onClick={() => console.log('hai')}
+                classes="button__profile"
+              >
+                Edit Profile Settings
+              </Button>
+            )}
           </div>
         </Container>
       </Banner>

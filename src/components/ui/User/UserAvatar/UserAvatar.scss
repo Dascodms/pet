@@ -6,6 +6,16 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  &__feed {
+    margin-right: 10px;
+  }
+  &--mb-10 {
+    margin-bottom: 10px;
+  } 
+  &--size-middle {
+    width: 90px;
+    height: 90px;
+  }
   &--small {
     width: 30px;
     height: 30px;

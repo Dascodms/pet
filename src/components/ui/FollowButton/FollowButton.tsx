@@ -1,19 +1,22 @@
 import './FollowButton.scss';
 
-import { FollowButtonProps } from './FollowButton.type';
-import React from 'react';
+import React, { FC } from 'react';
 
-const FollowButton: React.FC<FollowButtonProps> = ({
+type Props = {
+  username: string;
+  following: boolean;
+  handleClick: () => void;
+  className?: string;
+};
+
+const FollowButton: FC<Props> = ({
   username,
   handleClick,
   following,
-  classes,
+  className = '',
 }): JSX.Element => {
   return (
-    <button
-      className={`follow-button ${classes ? classes : ''}`}
-      onClick={handleClick}
-    >
+    <button className={`follow-button ${className}`} onClick={handleClick}>
       {following ? 'Unfollow' : 'Follow'} {username}
     </button>
   );

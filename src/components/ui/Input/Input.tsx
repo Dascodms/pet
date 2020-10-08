@@ -1,18 +1,28 @@
 import './Input.scss';
 
-import { InputProps } from './Input.type';
-import React from 'react';
+import React, { FC } from 'react';
 
-const Input: React.FC<InputProps> = ({
+import { FieldError } from 'react-hook-form';
+
+type Props = {
+  type: string;
+  name: string;
+  placeholder: string;
+  register: any;
+  className?: string;
+  error?: FieldError;
+};
+
+const Input: FC<Props> = ({
   type,
   name,
   placeholder,
   register,
   error,
-  classes,
+  className = '',
 }): JSX.Element => {
   return (
-    <div className={`input ${classes}`}>
+    <div className={`input ${className}`}>
       <label>
         <input
           className="input__element"

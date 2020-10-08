@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { queryCache, usePaginatedQuery, useQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Article from '../../../ui/Article/Article';
+import ArticleCard from '../../../ui/Article/ArticleCard';
 import Loader from '../../../ui/Loader/Loader';
 import Paginate from '../../../ui/Paginate/Paginate';
 import { ProfileFavoritedFeedProps } from './ProfileFavoritedFeed.type';
@@ -28,19 +28,22 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
     );
   }, [page, username]);
 
-  const onPageChange = (page: number) => {
-    setPage(page);
+  const onPageChange = useCallback(
+    (page: number) => {
+      setPage(page);
 
-    history.push({
-      pathname: location.pathname,
-      search: page ? `?page=${++page}` : '',
-    });
+      history.push({
+        pathname: location.pathname,
+        search: page ? `?page=${++page}` : '',
+      });
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    },
+    [page],
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -49,7 +52,7 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
   return (
     <div>
       {resolvedData.articles.map((article) => (
-        <Article
+        <ArticleCard
           setPage={setPage}
           key={article.updatedAt}
           article={article}

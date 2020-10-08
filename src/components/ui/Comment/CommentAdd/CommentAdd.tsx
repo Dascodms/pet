@@ -1,16 +1,18 @@
 import './CommentAdd.scss';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { queryCache, useMutation } from 'react-query';
 
-import ArticleUser from '../../Article/ArticleUser/ArticleUser';
 import Button from '../../Button/Button';
-import { CommentAddProps } from './CommentAdd.type';
 import Textarea from '../../Textarea/Textarea';
 import { createComment } from '../../../../services/commentService/commentService';
 import { useAuth } from '../../../Contexts/AuthContext';
 
-const CommentAdd: React.FC<CommentAddProps> = ({ slug }): JSX.Element => {
+type Props = {
+  slug: string;
+};
+
+const CommentAdd: FC<Props> = ({ slug }): JSX.Element => {
   const { user } = useAuth();
   const [commentText, setCommentText] = useState<string>('');
   const [mutate] = useMutation(createComment, {
@@ -35,7 +37,6 @@ const CommentAdd: React.FC<CommentAddProps> = ({ slug }): JSX.Element => {
         rows={6}
       />
       <div className="comment-add__wrapper">
-        <ArticleUser username={user.username} image={user.image} />
         <Button
           disabled={commentText.trim().length === 0}
           onClick={handleClick}

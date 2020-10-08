@@ -1,14 +1,27 @@
 import './Comment.scss';
 
+import React, { FC } from 'react';
 import { queryCache, useMutation } from 'react-query';
 
-import ArticleUser from '../Article/ArticleUser/ArticleUser';
-import { Comment as CommentProps } from './Comment.type';
+import { Author } from '../Article/Article.type';
 import DeleteButton from '../DeleteButton/DeleteButton';
-import React from 'react';
+import Moment from 'react-moment';
+import Row from '../Row/Row';
+import User from '../User/User';
+import UserAvatar from '../User/UserAvatar/UserAvatar';
 import { deleteComment } from '../../../services/commentService/commentService';
 
-const Comment: React.FC<CommentProps> = ({
+type Props = {
+  id?: number;
+  createdAt: string;
+  updatedAt: string;
+  body: string;
+  author: Author;
+  currentUser: string;
+  slug: string;
+};
+
+const Comment: FC<Props> = ({
   body,
   author,
   createdAt,
@@ -23,7 +36,7 @@ const Comment: React.FC<CommentProps> = ({
 
       const previousComments = queryCache.getQueryData(['comments', slug]);
 
-      queryCache.setQueryData(['comments', slug], (old: CommentProps[]) =>
+      queryCache.setQueryData(['comments', slug], (old: Props[]) =>
         old.filter((comment) => comment.id !== id),
       );
 
@@ -44,12 +57,17 @@ const Comment: React.FC<CommentProps> = ({
     <div className="comment">
       <div className="comment__body">{body}</div>
       <div className="comment__wrapper">
-        <ArticleUser
-          marginTop
-          createdAt={createdAt}
-          image={image}
-          username={username}
-        />
+        <Row>
+          <UserAvatar
+            className="user-avatar__feed"
+            username={username}
+            image={image}
+          />
+          <div>
+            <User username={username} />
+            <Moment format="LL HH:mm">{createdAt}</Moment>
+          </div>
+        </Row>
         {currentUser === username ? (
           <DeleteButton isLoading={false} onClick={handleRemove} />
         ) : null}

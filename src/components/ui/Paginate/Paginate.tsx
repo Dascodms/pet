@@ -1,19 +1,25 @@
 import './Paginate.scss';
 
-import { PaginateProps } from './Paginate.type';
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
-const Paginate: React.FC<PaginateProps> = ({
+type Props = {
+  page: number;
+  onPageChange: (page: number) => void;
+  count: number;
+};
+
+const Paginate: React.FC<Props> = ({
   page,
   onPageChange,
   count,
 }): JSX.Element => {
+  console.log(page);
   return (
     <div className="pagination__wrapper">
       <ReactPaginate
         pageCount={count}
-        initialPage={page}
+        forcePage={page}
         pageRangeDisplayed={4}
         marginPagesDisplayed={1}
         containerClassName="pagination"
@@ -26,10 +32,9 @@ const Paginate: React.FC<PaginateProps> = ({
         activeClassName="pagination__active"
         disabledClassName="pagination__disabled"
         onPageChange={(page) => onPageChange(page.selected)}
-        disableInitialCallback={true}
       />
     </div>
   );
 };
 
-export default Paginate;
+export default React.memo(Paginate);

@@ -1,6 +1,6 @@
 import './app.scss';
 
-import Header from './Header/Header';
+import Header from './ui/Header/Header';
 import React from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { BrowserRouter as Router } from 'react-router-dom';

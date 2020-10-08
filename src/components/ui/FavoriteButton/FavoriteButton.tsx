@@ -1,10 +1,17 @@
 import './FavoriteButton.scss';
 
-import { FavoriteButtonProps } from './FavoriteButton.type';
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
+
 import { RiHeartAddLine } from 'react-icons/ri';
 
-const FavoriteButton: React.FC<FavoriteButtonProps> = ({
+type Props = {
+  handleClickFavoriteButton: () => void;
+  children: ReactNode;
+  favorited: boolean;
+  disabled: boolean;
+};
+
+const FavoriteButton: FC<Props> = ({
   children,
   handleClickFavoriteButton,
   favorited,
