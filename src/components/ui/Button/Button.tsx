@@ -8,16 +8,15 @@ type Props = {
   disabled?: boolean;
   onClick?: () => void;
   children: React.ReactNode;
-  classes?: string;
+  className?: string;
 };
 
 const Button: FC<Props> = ({
   onClick,
   submit,
   disabled,
-  flexEnd,
   children,
-  classes,
+  className = '',
 }) => {
   return (
     <>
@@ -25,7 +24,7 @@ const Button: FC<Props> = ({
         <button
           disabled={disabled}
           type="submit"
-          className={`button ${flexEnd ? 'button--flex-end' : ''}`}
+          className={`button ${className}`}
         >
           {children}
         </button>
@@ -33,9 +32,7 @@ const Button: FC<Props> = ({
         <button
           disabled={disabled}
           onClick={() => onClick()}
-          className={`button ${flexEnd ? 'button--flex-end' : ''} ${
-            classes ? classes : ''
-          } `}
+          className={`button ${className}`}
         >
           {children}
         </button>
