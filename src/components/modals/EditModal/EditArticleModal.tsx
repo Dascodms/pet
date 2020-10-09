@@ -1,4 +1,4 @@
-import './EditArticleModal.scss';
+import '../../../assets/scss/modal.scss';
 
 import React, { FC, useEffect } from 'react';
 import { queryCache, useMutation } from 'react-query';
