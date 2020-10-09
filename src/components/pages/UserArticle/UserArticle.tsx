@@ -10,10 +10,10 @@ import DeleteArticleModal from '../../modals/DeleteArticleModal/DeleteArticleMod
 import EditArticleModal from '../../modals/EditModal/EditArticleModal';
 import Loader from '../../ui/Loader/Loader';
 import Moment from 'react-moment';
-import Row from '../../ui/Row/Row';
 import Title from '../../ui/Title/Title';
 import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
+import Wrapper from '../../ui/Wrapper/Wrapper';
 import { getArticle } from '../../../services/articleService/articleService';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
@@ -47,9 +47,15 @@ const UserArticle: React.FC = (): JSX.Element => {
         <div>
           <Banner backgroundColor="#333">
             <Container>
-              <div className="user-article__wrapper">
+              <Wrapper style={{ display: 'flex', flexDirection: 'column' }}>
                 <h1 className="user-article__title"></h1>
-                <Row>
+                <Wrapper
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginTop: '20px',
+                  }}
+                >
                   <UserAvatar
                     className="user-avatar__feed"
                     username={data.author.username}
@@ -64,9 +70,16 @@ const UserArticle: React.FC = (): JSX.Element => {
                       {}
                     </Moment>
                   </div>
-                </Row>
+                </Wrapper>
                 {authUser.username === data.author.username ? (
-                  <div className="user-article__buttons">
+                  <Wrapper
+                    style={{
+                      display: 'flex',
+                      alignSelf: 'flex-end',
+                      justifyContent: 'space-between',
+                      width: '220px',
+                    }}
+                  >
                     <Button
                       onClick={() => setShowDeleteArticleModal(true)}
                       className="button__remove"
@@ -79,9 +92,9 @@ const UserArticle: React.FC = (): JSX.Element => {
                     >
                       Edit article
                     </Button>
-                  </div>
+                  </Wrapper>
                 ) : null}
-              </div>
+              </Wrapper>
             </Container>
           </Banner>
           <Container>

@@ -7,7 +7,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
   username,
   setPage,
 }): JSX.Element => {
-  const { url, path } = useRouteMatch();
+  const { url } = useRouteMatch();
 
   return (
     <div className="tabs">

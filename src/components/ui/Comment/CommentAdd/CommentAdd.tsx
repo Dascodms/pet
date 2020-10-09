@@ -5,6 +5,7 @@ import { queryCache, useMutation } from 'react-query';
 
 import Button from '../../Button/Button';
 import Textarea from '../../Textarea/Textarea';
+import Wrapper from '../../Wrapper/Wrapper';
 import { createComment } from '../../../../services/commentService/commentService';
 import { useAuth } from '../../../Contexts/AuthContext';
 
@@ -36,14 +37,14 @@ const CommentAdd: FC<Props> = ({ slug }): JSX.Element => {
         placeholder="Write a comment..."
         rows={6}
       />
-      <div className="comment-add__wrapper">
+      <Wrapper style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
           disabled={commentText.trim().length === 0}
           onClick={handleClick}
         >
           Post comment
         </Button>
-      </div>
+      </Wrapper>
     </div>
   );
 };

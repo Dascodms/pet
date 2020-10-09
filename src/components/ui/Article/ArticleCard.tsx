@@ -8,10 +8,10 @@ import ArticleModalTags from './ArticleModalTags/ArticleModalTags';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import Row from '../Row/Row';
 import Tag from '../Tag/Tag';
 import User from '../User/User';
 import UserAvatar from '../User/UserAvatar/UserAvatar';
+import Wrapper from '../Wrapper/Wrapper';
 import { favoriteArticle } from '../../../services/favoriteService/favoriteService';
 
 type Props = {
@@ -91,7 +91,9 @@ const ArticleCard: FC<Props> = ({
         <div className="article__description">{description}</div>
         <button className="article__more link">Read more...</button>
       </Link>
-      <Row className="row--mt-20">
+      <Wrapper
+        style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+      >
         <UserAvatar
           className="user-avatar__feed"
           username={username}
@@ -101,8 +103,8 @@ const ArticleCard: FC<Props> = ({
           <User username={username} />
           <Moment format="LL HH:mm">{createdAt}</Moment>
         </div>
-      </Row>
-      <div className="article__wrapper">
+      </Wrapper>
+      <Wrapper style={{ marginTop: '20px' }}>
         <FavoriteButton
           disabled={false}
           favorited={favorited}
@@ -129,7 +131,7 @@ const ArticleCard: FC<Props> = ({
             setPage={setPage}
           />
         )}
-      </div>
+      </Wrapper>
     </div>
   );
 };

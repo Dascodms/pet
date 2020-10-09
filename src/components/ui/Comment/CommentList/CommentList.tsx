@@ -7,6 +7,7 @@ import Container from '../../Container/Container';
 import { Link } from 'react-router-dom';
 import Loader from '../../Loader/Loader';
 import React from 'react';
+import Wrapper from '../../Wrapper/Wrapper';
 import { getComments } from '../../../../services/commentService/commentService';
 import { useAuth } from '../../../Contexts/AuthContext';
 import { useQuery } from 'react-query';
@@ -20,7 +21,13 @@ const CommentList: React.FC<CommentListProps> = ({ slug }): JSX.Element => {
         <Loader />
       ) : (
         <Container>
-          <div className="comment-list__wrapper">
+          <Wrapper
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
             <div className="comment-list__title">
               {data.length ? `Comment ${data.length}` : 'No comments'}
             </div>
@@ -41,7 +48,7 @@ const CommentList: React.FC<CommentListProps> = ({ slug }): JSX.Element => {
                 slug={slug}
               />
             ))}
-          </div>
+          </Wrapper>
         </Container>
       )}
     </div>

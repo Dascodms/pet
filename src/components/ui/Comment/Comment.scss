@@ -9,15 +9,4 @@
     border-bottom: 1px solid $light;
     padding-bottom: 20px;
   }
-  &__wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  &__remove--loading {
-    pointer-events: none;
-    cursor: not-allowed;
-    color: $grey;
-  }
 }

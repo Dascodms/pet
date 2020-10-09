@@ -1,5 +1,3 @@
-import './Profile.scss';
-
 import React, { useState } from 'react';
 import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { queryCache, useMutation, useQuery } from 'react-query';
@@ -16,6 +14,7 @@ import { Profile as ProfileType } from './Profile.type';
 import QueryString from 'query-string';
 import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
+import Wrapper from '../../ui/Wrapper/Wrapper';
 import { followUser } from '../../../services/followService/followService';
 import { getProfile } from '../../../services/profileService/profileService';
 import { useAuth } from '../../Contexts/AuthContext';
@@ -63,7 +62,13 @@ const Profile: React.FC = (): JSX.Element => {
     <div className="profile">
       <Banner backgroundColor="#333">
         <Container>
-          <div className="profile__wrapper">
+          <Wrapper
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
             <UserAvatar
               className="user-avatar--size-middle user-avatar--mb-10"
               username={data.username}
@@ -81,16 +86,22 @@ const Profile: React.FC = (): JSX.Element => {
             ) : (
               <Button
                 onClick={() => console.log('hai')}
-                classes="button__profile"
+                className="button__profile"
               >
                 Edit Profile Settings
               </Button>
             )}
-          </div>
+          </Wrapper>
         </Container>
       </Banner>
       <Container>
-        <div className="profile__wrapper">
+        <Wrapper
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <ProfileTabs setPage={setPage} username={data.username} />
           <Route exact path={path}>
             <ProfileFeed
@@ -106,7 +117,7 @@ const Profile: React.FC = (): JSX.Element => {
               username={data.username}
             />
           </Route>
-        </div>
+        </Wrapper>
       </Container>
     </div>
   );

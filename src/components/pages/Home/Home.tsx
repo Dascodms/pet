@@ -1,5 +1,3 @@
-import './Home.scss';
-
 import React, { useState } from 'react';
 import { Redirect, Route, useRouteMatch } from 'react-router-dom';
 
@@ -9,6 +7,7 @@ import PopularTags from '../../ui/Tag/PopularTags/PopularTags';
 import QueryString from 'query-string';
 import Tabs from '../../ui/Tabs/Tabs';
 import TagFeed from '../TagFeed/TagFeed';
+import Wrapper from '../../ui/Wrapper/Wrapper';
 import YourFeed from '../YourFeed/YourFeed';
 
 const Home = (): JSX.Element => {
@@ -21,7 +20,7 @@ const Home = (): JSX.Element => {
 
   return (
     <Container>
-      <div className="home">
+      <Wrapper style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <Tabs setPage={setPage} />
           <Route exact path={`${path}/feed`}>
@@ -38,7 +37,7 @@ const Home = (): JSX.Element => {
           </Route>
         </div>
         <PopularTags setPage={setPage} />
-      </div>
+      </Wrapper>
     </Container>
   );
 };

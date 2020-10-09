@@ -2,6 +2,7 @@ import './Paginate.scss';
 
 import React from 'react';
 import ReactPaginate from 'react-paginate';
+import Wrapper from '../Wrapper/Wrapper';
 
 type Props = {
   page: number;
@@ -16,7 +17,7 @@ const Paginate: React.FC<Props> = ({
 }): JSX.Element => {
   console.log(page);
   return (
-    <div className="pagination__wrapper">
+    <Wrapper style={{ display: 'flex', justifyContent: 'center' }}>
       <ReactPaginate
         pageCount={count}
         forcePage={page}
@@ -33,7 +34,7 @@ const Paginate: React.FC<Props> = ({
         disabledClassName="pagination__disabled"
         onPageChange={(page) => onPageChange(page.selected)}
       />
-    </div>
+    </Wrapper>
   );
 };
 

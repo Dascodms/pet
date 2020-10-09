@@ -6,9 +6,9 @@ import { queryCache, useMutation } from 'react-query';
 import { Author } from '../Article/Article.type';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import Moment from 'react-moment';
-import Row from '../Row/Row';
 import User from '../User/User';
 import UserAvatar from '../User/UserAvatar/UserAvatar';
+import Wrapper from '../Wrapper/Wrapper';
 import { deleteComment } from '../../../services/commentService/commentService';
 
 type Props = {
@@ -56,8 +56,16 @@ const Comment: FC<Props> = ({
   return (
     <div className="comment">
       <div className="comment__body">{body}</div>
-      <div className="comment__wrapper">
-        <Row>
+      <Wrapper
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+        }}
+      >
+        <Wrapper
+          style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+        >
           <UserAvatar
             className="user-avatar__feed"
             username={username}
@@ -67,11 +75,11 @@ const Comment: FC<Props> = ({
             <User username={username} />
             <Moment format="LL HH:mm">{createdAt}</Moment>
           </div>
-        </Row>
+        </Wrapper>
         {currentUser === username ? (
           <DeleteButton isLoading={false} onClick={handleRemove} />
         ) : null}
-      </div>
+      </Wrapper>
     </div>
   );
 };
