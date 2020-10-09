@@ -41,6 +41,17 @@
       border: 1px solid $grey;
     }
   }
+  &__edit {
+    background-color: transparent;
+    border: 1px solid $green;
+    &:hover {
+      background-color: $green;
+    }
+
+    &:disabled {
+      border: 1px solid $grey;
+    }
+  }
   &__flex-end {
     align-self: flex-end;
   }

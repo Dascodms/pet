@@ -51,15 +51,20 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
 
   return (
     <div>
-      {resolvedData.articles.map((article) => (
-        <ArticleCard
-          setPage={setPage}
-          key={article.updatedAt}
-          article={article}
-          classes="article--mb20"
-          queryKey={queryKey}
-        />
-      ))}
+      {resolvedData.articlesCount ? (
+        resolvedData.articles.map((article) => (
+          <ArticleCard
+            setPage={setPage}
+            key={article.updatedAt}
+            article={article}
+            classes="article--mb20"
+            queryKey={queryKey}
+          />
+        ))
+      ) : (
+        <div>No favorites articles</div>
+      )}
+
       {isLoading || resolvedData.articlesCount <= 10 ? null : (
         <Paginate
           count={resolvedData.articlesCount / 10}

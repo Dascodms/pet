@@ -13,6 +13,7 @@ type Props = {
   name?: string;
   error?: FieldError;
   className?: string;
+  label?: string;
 };
 
 const Textarea: FC<Props> = ({
@@ -24,11 +25,13 @@ const Textarea: FC<Props> = ({
   error,
   register,
   className = '',
+  label = '',
 }): JSX.Element => (
   <>
     {name ? (
       <div className={`textarea ${className}`}>
         <label>
+          {label}
           <textarea
             className="textarea__element"
             ref={register}

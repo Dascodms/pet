@@ -90,17 +90,23 @@ const Profile: React.FC = (): JSX.Element => {
         </Container>
       </Banner>
       <Container>
-        <ProfileTabs setPage={setPage} username={data.username} />
-        <Route exact path={path}>
-          <ProfileFeed setPage={setPage} page={page} username={data.username} />
-        </Route>
-        <Route exact path={`${path}/favorite`}>
-          <ProfileFavoritedFeed
-            setPage={setPage}
-            page={page}
-            username={data.username}
-          />
-        </Route>
+        <div className="profile__wrapper">
+          <ProfileTabs setPage={setPage} username={data.username} />
+          <Route exact path={path}>
+            <ProfileFeed
+              setPage={setPage}
+              page={page}
+              username={data.username}
+            />
+          </Route>
+          <Route exact path={`${path}/favorite`}>
+            <ProfileFavoritedFeed
+              setPage={setPage}
+              page={page}
+              username={data.username}
+            />
+          </Route>
+        </div>
       </Container>
     </div>
   );

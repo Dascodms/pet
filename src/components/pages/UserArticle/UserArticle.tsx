@@ -1,5 +1,6 @@
 import './UserArticle.scss';
 
+import React, { useState } from 'react';
 import {
   deleteArticle,
   getArticle,
@@ -11,10 +12,11 @@ import Banner from '../../ui/Banner/Banner';
 import Button from '../../ui/Button/Button';
 import CommentList from '../../ui/Comment/CommentList/CommentList';
 import Container from '../../ui/Container/Container';
+import EditModal from '../../modals/EditModal/EditModal';
 import Loader from '../../ui/Loader/Loader';
 import Moment from 'react-moment';
-import React from 'react';
 import Row from '../../ui/Row/Row';
+import Title from '../../ui/Title/Title';
 import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
 import { useAuth } from '../../Contexts/AuthContext';
@@ -39,6 +41,7 @@ const UserArticle: React.FC = (): JSX.Element => {
       history.push('/');
     },
   });
+  const [show, setShow] = useState(false);
   const { user: authUser } = useAuth();
 
   return (
@@ -68,24 +71,43 @@ const UserArticle: React.FC = (): JSX.Element => {
                   </div>
                 </Row>
                 {authUser.username === data.author.username ? (
-                  <Button
-                    disabled={isLoadingDelete}
-                    onClick={() => mutate(slug)}
-                    classes="button__remove button__flex-end"
-                  >
-                    Delete article
-                  </Button>
+                  <div className="user-article__buttons">
+                    <Button
+                      disabled={isLoadingDelete}
+                      onClick={() => mutate(slug)}
+                      classes="button__remove"
+                    >
+                      Delete article
+                    </Button>
+                    <Button
+                      disabled={isLoadingDelete}
+                      onClick={() => setShow(true)}
+                      classes="button__edit"
+                    >
+                      Edit article
+                    </Button>
+                  </div>
                 ) : null}
               </div>
             </Container>
           </Banner>
           <Container>
+            <Title title={data.title}></Title>
             <div className="user-article__body">{data.body}</div>
           </Container>
 
           <CommentList slug={slug} />
         </div>
       )}
+      {show ? (
+        <EditModal
+          slug={data.slug}
+          title={data.title}
+          body={data.body}
+          description={data.description}
+          setShow={setShow}
+        />
+      ) : null}
     </div>
   );
 };

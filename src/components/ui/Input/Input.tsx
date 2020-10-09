@@ -11,6 +11,7 @@ type Props = {
   register: any;
   className?: string;
   error?: FieldError;
+  label?: string;
 };
 
 const Input: FC<Props> = ({
@@ -20,10 +21,12 @@ const Input: FC<Props> = ({
   register,
   error,
   className = '',
+  label = '',
 }): JSX.Element => {
   return (
     <div className={`input ${className}`}>
       <label>
+        {label}
         <input
           className="input__element"
           ref={register}
