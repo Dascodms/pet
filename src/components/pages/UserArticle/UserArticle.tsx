@@ -1,25 +1,23 @@
 import './UserArticle.scss';
 
 import React, { useState } from 'react';
-import {
-  deleteArticle,
-  getArticle,
-} from '../../../services/articleService/articleService';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-query';
 
 import Banner from '../../ui/Banner/Banner';
 import Button from '../../ui/Button/Button';
 import CommentList from '../../ui/Comment/CommentList/CommentList';
 import Container from '../../ui/Container/Container';
-import EditModal from '../../modals/EditModal/EditModal';
+import DeleteArticleModal from '../../modals/DeleteArticleModal/DeleteArticleModal';
+import EditArticleModal from '../../modals/EditModal/EditArticleModal';
 import Loader from '../../ui/Loader/Loader';
 import Moment from 'react-moment';
 import Row from '../../ui/Row/Row';
 import Title from '../../ui/Title/Title';
 import User from '../../ui/User/User';
 import UserAvatar from '../../ui/User/UserAvatar/UserAvatar';
+import { getArticle } from '../../../services/articleService/articleService';
 import { useAuth } from '../../Contexts/AuthContext';
+import { useLocation } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 type UserArticle = {
   body: string;
@@ -34,14 +32,11 @@ const UserArticle: React.FC = (): JSX.Element => {
   const {
     state: { slug },
   } = useLocation<{ slug: string }>();
-  const history = useHistory();
   const { data, isLoading } = useQuery(['article', slug], getArticle);
-  const [mutate, { isLoading: isLoadingDelete }] = useMutation(deleteArticle, {
-    onSuccess() {
-      history.push('/');
-    },
-  });
+
   const [show, setShow] = useState(false);
+  const [showDeleteArticleModal, setShowDeleteArticleModal] = useState(false);
+
   const { user: authUser } = useAuth();
 
   return (
@@ -73,16 +68,14 @@ const UserArticle: React.FC = (): JSX.Element => {
                 {authUser.username === data.author.username ? (
                   <div className="user-article__buttons">
                     <Button
-                      disabled={isLoadingDelete}
-                      onClick={() => mutate(slug)}
-                      classes="button__remove"
+                      onClick={() => setShowDeleteArticleModal(true)}
+                      className="button__remove"
                     >
                       Delete article
                     </Button>
                     <Button
-                      disabled={isLoadingDelete}
                       onClick={() => setShow(true)}
-                      classes="button__edit"
+                      className="button__edit"
                     >
                       Edit article
                     </Button>
@@ -100,12 +93,19 @@ const UserArticle: React.FC = (): JSX.Element => {
         </div>
       )}
       {show ? (
-        <EditModal
+        <EditArticleModal
           slug={data.slug}
           title={data.title}
           body={data.body}
           description={data.description}
           setShow={setShow}
+        />
+      ) : null}
+
+      {showDeleteArticleModal ? (
+        <DeleteArticleModal
+          slug={slug}
+          setShowDeleteArticleModal={setShowDeleteArticleModal}
         />
       ) : null}
     </div>

@@ -1,4 +1,4 @@
-import './EditModal.scss';
+import './EditArticleModal.scss';
 
 import React, { FC, useEffect } from 'react';
 import { queryCache, useMutation } from 'react-query';
@@ -25,7 +25,7 @@ type PutType = {
   body: string;
 };
 
-const EditModal: FC<Props> = ({
+const EditArticleModal: FC<Props> = ({
   setShow,
   title,
   body,
@@ -114,4 +114,4 @@ const EditModal: FC<Props> = ({
   );
 };
 
-export default EditModal;
+export default EditArticleModal;
