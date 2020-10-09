@@ -28,7 +28,6 @@ const ArticleCard: FC<Props> = ({
   queryKey,
 }): JSX.Element => {
   const {
-    body,
     title,
     slug,
     createdAt,
@@ -84,14 +83,7 @@ const ArticleCard: FC<Props> = ({
         to={{
           pathname: `/article/${article.author.username}`,
           state: {
-            userArticle: {
-              username,
-              title,
-              body,
-              createdAt,
-              image,
-              slug,
-            },
+            slug,
           },
         }}
       >

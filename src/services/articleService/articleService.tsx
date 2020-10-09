@@ -2,6 +2,7 @@ import { Article, ArticleApi } from '../../components/ui/Article/Article.type';
 import { del, get, post } from '../../api';
 
 import { createPostType } from '../../components/pages/CreatePost/CreatePost.type';
+import { getComments } from '../commentService/commentService';
 
 const url = '/articles?limit=10';
 
@@ -63,4 +64,12 @@ export const createArticle = async (body: createPostType): Promise<Article> => {
 export const deleteArticle = async (slug: string): Promise<Article> => {
   const response = del<Article>(`/articles/${slug}`);
   return response;
+};
+
+export const getArticle = async (
+  key: string,
+  slug: string,
+): Promise<Article> => {
+  const response = await get<{ article: Article }>(`/articles/${slug}`);
+  return response.article;
 };

@@ -8,6 +8,7 @@ export const getComments = async (
   key: string,
   slug: string,
 ): Promise<Comment[]> => {
+  console.log(slug);
   const response = await get<{ comments: Comment[] }>(`${url}${slug}/comments`);
   return response.comments;
 };

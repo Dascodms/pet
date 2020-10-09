@@ -1,6 +1,6 @@
 import { del, post } from '../../api';
 
-import { Profile } from '../../hooks/useProfile';
+import { Profile } from '../../components/pages/Profile/Profile.type';
 
 export const followUser = async ({
   username,
