@@ -2,26 +2,35 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import ArticleCard from '../../ui/Article/ArticleCard';
-import { FeedPage } from '../../../global-types/Feed.type';
-import Loader from '../../ui/Loader/Loader';
-import Paginate from '../../ui/Paginate/Paginate';
+import ArticleCard from '../../../../ui/Article/ArticleCard';
+import Loader from '../../../../ui/Loader/Loader';
+import Paginate from '../../../../ui/Paginate/Paginate';
 import QueryString from 'query-string';
-import { getArticlesByTag } from '../../../services/articleService/articleService';
+import { getArticlesByTag } from '../../../../../services/articleService/articleService';
+import { usePage } from '../../../../Contexts/PageContext';
+import { useTab } from '../../../../Contexts/TabContext';
 
-const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
+const TagFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
+  const { page, setPage } = usePage();
+  const { tab, setTab } = useTab();
   const [queryKey, setQueryKey] = useState(null);
-  const { tag } = QueryString.parse(location.search);
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-tag', page, tag],
+    ['articles-tag', page, tab],
     getArticlesByTag,
   );
 
+  console.count('TAGFEED');
+
   useEffect(() => {
-    setQueryKey(queryCache.getQuery(['articles-tag', page, tag]).queryKey);
-  }, [page, tag]);
+    const { tag } = QueryString.parse(location.search);
+    setTab(tag as string);
+  }, []);
+
+  useEffect(() => {
+    setQueryKey(queryCache.getQuery(['articles-tag', page, tab]).queryKey);
+  }, [page, tab]);
 
   const onPageChange = useCallback(
     (page: number) => {
@@ -29,7 +38,7 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
 
       history.push({
         pathname: location.pathname,
-        search: page ? `?tag=${tag}&page=${++page}` : `?tag=${tag}`,
+        search: page ? `?tag=${tab}&page=${++page}` : `?tag=${tab}`,
       });
 
       window.scrollTo({
@@ -37,12 +46,8 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
         behavior: 'smooth',
       });
     },
-    [page],
+    [page, tab],
   );
-
-  useEffect(() => {
-    console.log(page);
-  });
 
   if (isLoading) {
     return <Loader />;
@@ -51,10 +56,9 @@ const TagFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
     <div>
       {resolvedData.articles.map((article) => (
         <ArticleCard
-          setPage={setPage}
           key={article.updatedAt}
           article={article}
-          classes="article--mb20"
+          className="article--mb20"
           queryKey={queryKey}
         />
       ))}

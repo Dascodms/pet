@@ -1,45 +1,33 @@
-import React, { useState } from 'react';
-import { Redirect, Route, useRouteMatch } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 import Container from '../../ui/Container/Container';
-import GlobalFeed from '../GlobalFeed/GlobalFeed';
+import HomeRoutes from './Routes/HomeRoutes';
 import PopularTags from '../../ui/Tag/PopularTags/PopularTags';
 import QueryString from 'query-string';
 import Tabs from '../../ui/Tabs/Tabs';
-import TagFeed from '../TagFeed/TagFeed';
 import Wrapper from '../../ui/Wrapper/Wrapper';
-import YourFeed from '../YourFeed/YourFeed';
+import { usePage } from '../../Contexts/PageContext';
 
 const Home = (): JSX.Element => {
-  const { path } = useRouteMatch();
-  const [page, setPage] = useState<number>(() => {
-    console.log('ff');
+  const { setPage } = usePage();
+
+  useEffect(() => {
     const { page } = QueryString.parse(location.search);
-    return +page - 1;
-  });
+    const currentPage = page ? +page - 1 : 0;
+    setPage(currentPage);
+  }, []);
 
   return (
     <Container>
       <Wrapper style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
-          <Tabs setPage={setPage} />
-          <Route exact path={`${path}/feed`}>
-            <GlobalFeed page={page} setPage={setPage} />
-          </Route>
-          <Route exact path={`${path}/feed-by-tag`}>
-            <TagFeed page={page} setPage={setPage} />
-          </Route>
-          <Route exact path={`${path}/your-feed`}>
-            <YourFeed page={page} setPage={setPage} />
-          </Route>
-          <Route exact path={`${path}`}>
-            <Redirect to={`${path}/feed`} />
-          </Route>
+          <Tabs />
+          <HomeRoutes />
         </div>
-        <PopularTags setPage={setPage} />
+        <PopularTags />
       </Wrapper>
     </Container>
   );
 };
 
-export default Home;
+export default React.memo(Home);

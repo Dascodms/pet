@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import ArticleCard from '../../ui/Article/ArticleCard';
-import { FeedPage } from '../../../global-types/Feed.type';
-import Loader from '../../ui/Loader/Loader';
-import Paginate from '../../ui/Paginate/Paginate';
-import { getArticles } from '../../../services/articleService/articleService';
+import ArticleCard from '../../../../ui/Article/ArticleCard';
+import Loader from '../../../../ui/Loader/Loader';
+import Paginate from '../../../../ui/Paginate/Paginate';
+import { getArticles } from '../../../../../services/articleService/articleService';
+import { usePage } from '../../../../Contexts/PageContext';
 
-const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
+const GlobalFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
+  const { page, setPage } = usePage();
   const [queryKey, setQueryKey] = useState(null);
   const { isLoading, resolvedData, error } = usePaginatedQuery(
     ['articles-global', page],
@@ -18,7 +19,6 @@ const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
   );
 
   useEffect(() => {
-    console.log('hh');
     setQueryKey(queryCache.getQuery(['articles-global', page]).queryKey);
   }, [page]);
 
@@ -47,10 +47,9 @@ const GlobalFeed: React.FC<FeedPage> = ({ page, setPage }): JSX.Element => {
     <div>
       {resolvedData.articles.map((article) => (
         <ArticleCard
-          setPage={setPage}
           key={article.updatedAt}
           article={article}
-          classes="article--mb20"
+          className="article--mb20"
           queryKey={queryKey}
         />
       ))}
