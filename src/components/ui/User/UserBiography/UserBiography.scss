@@ -1,0 +1,11 @@
+@import '../../../../assets/scss/variables.scss';
+
+.user-biography {
+  color: $black;
+  width: 500px;
+  word-break: break-all;
+  text-align: center;
+  &--white {
+    color: $white;
+  }
+}
