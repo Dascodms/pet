@@ -1,4 +1,12 @@
+@import './variables';
+
 .link {
   color: #A0B4B6;
   text-decoration: none;
+  &--mr-10 {
+    margin-right: 10px;
+  }
+  &--active {
+    color: $green;
+  }
 }
