@@ -7,6 +7,7 @@ import Title from '../../ui/Title/Title';
 import { createArticle } from '../../../services/articleService/articleService';
 import { createPostType } from './CreatePost.type';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
 const CreatePost: React.FC = () => {
@@ -14,9 +15,11 @@ const CreatePost: React.FC = () => {
     mode: 'onTouched',
   });
 
+  const history = useHistory();
+
   const [mutate, { isLoading }] = useMutation(createArticle, {
     onSuccess(response) {
-      console.log(response);
+      history.push(`/article/${response.slug}`);
     },
     onError(e) {
       console.log(e);
@@ -74,7 +77,7 @@ const CreatePost: React.FC = () => {
           placeholder="Enter tags"
           className="input__form"
         />
-        <Button disabled={isLoading} flexEnd submit>
+        <Button disabled={isLoading} submit>
           Create Post
         </Button>
       </form>
