@@ -2,7 +2,6 @@ import { Article, ArticleApi } from '../../components/ui/Article/Article.type';
 import { del, get, post, put } from '../../api';
 
 import { createPostType } from '../../components/pages/CreatePost/CreatePost.type';
-import { getComments } from '../commentService/commentService';
 
 const url = '/articles?limit=10';
 
@@ -57,8 +56,10 @@ export const getArticlesByUserFavorited = async (
 };
 
 export const createArticle = async (body: createPostType): Promise<Article> => {
-  const response = post<Article>('/articles', { article: body });
-  return response;
+  const response = await post<{ article: Article }>('/articles', {
+    article: body,
+  });
+  return response.article;
 };
 
 export const editArticle = async ({
