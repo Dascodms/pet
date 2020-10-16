@@ -9,14 +9,12 @@ type Props = {
   setShowTags: (arg: boolean) => void;
   title: string;
   tags: string[];
-  setPage: (page: number) => void;
 };
 
 const ArticleModalTags: FC<Props> = ({
   setShowTags,
   title,
   tags,
-  setPage,
 }): JSX.Element => {
   return (
     <div onMouseLeave={() => setShowTags(false)} className="article__tags">
@@ -24,7 +22,7 @@ const ArticleModalTags: FC<Props> = ({
         Tags in the article {title}
       </div>
       {tags.map((tag) => (
-        <Tag setPage={setPage} tag={tag} key={Math.random() * 1000} />
+        <Tag tag={tag} key={Math.random() * 1000} />
       ))}
     </div>
   );

@@ -1,10 +1,11 @@
 import './Header.scss';
 import '../../../assets/scss/link.scss';
 
+import React, { memo } from 'react';
+
 import Container from '../Container/Container';
-import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { TOKEN_NAME } from '../../../api';
 import Wrapper from '../Wrapper/Wrapper';
 import { useAuth } from '../../Contexts/AuthContext';
@@ -16,6 +17,7 @@ const Header = (): JSX.Element => {
     setUser(null);
     localStorage.removeItem(TOKEN_NAME);
   };
+
   return (
     <header className="header">
       <Container>
@@ -30,41 +32,56 @@ const Header = (): JSX.Element => {
         >
           <Logo />
           {user ? (
-            <Wrapper
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '250px',
-              }}
-            >
-              <Link className="link" to="/">
+            <div>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to="/home"
+              >
                 Home
-              </Link>
-              <Link className="link" to="/create">
+              </NavLink>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to={`/profile/${user.username}`}
+              >
+                {user.username}
+              </NavLink>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to="/create"
+              >
                 Create Post
-              </Link>
-              <Link className="link" to="/">
+              </NavLink>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to="/settings"
+              >
                 Settings
-              </Link>
+              </NavLink>
               <button onClick={onClickHandle} className="link">
                 Logout
               </button>
-            </Wrapper>
+            </div>
           ) : (
-            <Wrapper
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '250px',
-              }}
-            >
-              <Link className="link" to="/signin">
+            <div>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to="/signin"
+              >
                 Sign In
-              </Link>
-              <Link className="link" to="/signup">
+              </NavLink>
+              <NavLink
+                activeClassName="link--active"
+                className="link link--mr-10"
+                to="/signup"
+              >
                 Sign Up
-              </Link>
-            </Wrapper>
+              </NavLink>
+            </div>
           )}
         </Wrapper>
       </Container>
@@ -72,4 +89,4 @@ const Header = (): JSX.Element => {
   );
 };
 
-export default Header;
+export default memo(Header);

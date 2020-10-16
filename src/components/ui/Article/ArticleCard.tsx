@@ -1,30 +1,25 @@
 import './Article.scss';
 
-import { Article, ArticleApi } from './Article.type';
 import React, { FC, useState } from 'react';
-import { queryCache, useMutation } from 'react-query';
 
+import { Article } from './Article.type';
+import ArticleInfo from './ArticleInfo/ArticleInfo';
 import ArticleModalTags from './ArticleModalTags/ArticleModalTags';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
-import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 import Tag from '../Tag/Tag';
-import User from '../User/User';
-import UserAvatar from '../User/UserAvatar/UserAvatar';
+import UserInfo from '../User/UserInfo/UserInfo';
 import Wrapper from '../Wrapper/Wrapper';
-import { favoriteArticle } from '../../../services/favoriteService/favoriteService';
+import { useFavoriteStatusMutation } from '../../../hooks/useFavoriteStatusMutation';
 
 type Props = {
   article: Article;
-  classes: string;
-  setPage: (page: number) => void;
+  className: string;
   queryKey?: string;
 };
 
 const ArticleCard: FC<Props> = ({
   article,
-  classes,
-  setPage,
+  className = '',
   queryKey,
 }): JSX.Element => {
   const {
@@ -38,87 +33,30 @@ const ArticleCard: FC<Props> = ({
     author: { image, username },
   } = article;
   const [showTags, setShowTags] = useState<boolean>(false);
-  const [mutate] = useMutation(favoriteArticle, {
-    onMutate: ({ slug, favorited }) => {
-      queryCache.cancelQueries(queryKey);
-
-      const previousArticles = queryCache.getQueryData(queryKey);
-
-      queryCache.setQueryData(
-        queryKey,
-        ({ articles, articlesCount }: ArticleApi) => {
-          return {
-            articlesCount,
-            articles: articles.map((article) => {
-              if (article.slug === slug) {
-                return {
-                  ...article,
-                  favorited: !favorited,
-                  favoritesCount: !favorited
-                    ? article.favoritesCount + 1
-                    : article.favoritesCount - 1,
-                };
-              }
-              return article;
-            }),
-          };
-        },
-      );
-
-      return () => queryCache.setQueryData(queryKey, previousArticles);
-    },
-    onError: (rollback: () => void) => rollback(),
-    onSettled: () => {
-      queryCache.invalidateQueries(queryKey);
-    },
-  });
+  const [mutate] = useFavoriteStatusMutation(queryKey);
 
   const handleClickFavoriteButton = () => {
     mutate({ slug, favorited });
   };
 
   return (
-    <div className={`article ${classes ? classes : null}`}>
-      <Link
-        to={{
-          pathname: `/article/${article.author.username}`,
-          state: {
-            slug,
-          },
-        }}
-      >
-        <div className="article__title">{title}</div>
-        <div className="article__description">{description}</div>
-        <button className="article__more link">Read more...</button>
-      </Link>
+    <div className={`article ${className}`}>
+      <ArticleInfo title={title} description={description} slug={slug} />
       <Wrapper
         style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
       >
-        <UserAvatar
-          className="user-avatar__feed"
-          username={username}
-          image={image}
-        />
-        <div>
-          <User username={username} />
-          <Moment format="LL HH:mm">{createdAt}</Moment>
-        </div>
+        <UserInfo username={username} image={image} createdAt={createdAt} />
       </Wrapper>
       <Wrapper style={{ marginTop: '20px' }}>
         <FavoriteButton
           disabled={false}
           favorited={favorited}
-          handleClickFavoriteButton={handleClickFavoriteButton}
+          onClick={handleClickFavoriteButton}
         >
           <span>{favoritesCount}</span>
         </FavoriteButton>
         {tagList.slice(0, 4).map((tag) => (
-          <Tag
-            setPage={setPage}
-            className="tag__feed"
-            tag={tag}
-            key={Math.random() * 1000}
-          />
+          <Tag className="tag__feed" tag={tag} key={Math.random() * 1000} />
         ))}
         {tagList.length > 4 && (
           <button onMouseMove={() => setShowTags(true)}>More...</button>
@@ -128,7 +66,6 @@ const ArticleCard: FC<Props> = ({
             tags={tagList}
             title={title}
             setShowTags={setShowTags}
-            setPage={setPage}
           />
         )}
       </Wrapper>

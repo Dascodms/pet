@@ -12,6 +12,7 @@ type Props = {
   className?: string;
   error?: FieldError;
   label?: string;
+  disabled?: boolean;
 };
 
 const Input: FC<Props> = ({
@@ -22,12 +23,14 @@ const Input: FC<Props> = ({
   error,
   className = '',
   label = '',
+  disabled,
 }): JSX.Element => {
   return (
     <div className={`input ${className}`}>
       <label>
         {label}
         <input
+          disabled={disabled}
           className="input__element"
           ref={register}
           placeholder={placeholder}

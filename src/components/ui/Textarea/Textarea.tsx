@@ -14,6 +14,7 @@ type Props = {
   error?: FieldError;
   className?: string;
   label?: string;
+  disabled?: boolean;
 };
 
 const Textarea: FC<Props> = ({
@@ -26,6 +27,7 @@ const Textarea: FC<Props> = ({
   register,
   className = '',
   label = '',
+  disabled,
 }): JSX.Element => (
   <>
     {name ? (
@@ -33,6 +35,7 @@ const Textarea: FC<Props> = ({
         <label>
           {label}
           <textarea
+            disabled={disabled}
             className="textarea__element"
             ref={register}
             placeholder={placeholder}
@@ -43,6 +46,7 @@ const Textarea: FC<Props> = ({
       </div>
     ) : (
       <textarea
+        disabled={disabled}
         value={value}
         onChange={onChange}
         rows={rows}

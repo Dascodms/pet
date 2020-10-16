@@ -15,7 +15,8 @@ const Paginate: React.FC<Props> = ({
   onPageChange,
   count,
 }): JSX.Element => {
-  console.log(page);
+  console.count('Pagination');
+
   return (
     <Wrapper style={{ display: 'flex', justifyContent: 'center' }}>
       <ReactPaginate

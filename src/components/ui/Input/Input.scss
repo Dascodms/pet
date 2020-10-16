@@ -4,11 +4,14 @@
   position: relative;
   &__element {
     border: 1px solid $light-black;
-    color: $grey;
+    color: $black;
     width: 100%;
     padding: 15px 10px;
     outline-color: $light-blue;
     font-size: 16px;
+    &::placeholder {
+      color: $grey;
+    }
   }
   &__form {
     margin-bottom: 35px;

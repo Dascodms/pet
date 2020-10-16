@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { MdDeleteForever } from 'react-icons/md';
 
@@ -8,6 +8,7 @@ type Props = {
 };
 
 const DeleteButton: FC<Props> = ({ isLoading, onClick }) => {
+  useEffect(() => console.log('hh'));
   return (
     <MdDeleteForever
       onClick={onClick}
@@ -19,4 +20,4 @@ const DeleteButton: FC<Props> = ({ isLoading, onClick }) => {
   );
 };
 
-export default DeleteButton;
+export default React.memo(DeleteButton);

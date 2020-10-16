@@ -4,7 +4,6 @@ import React, { FC } from 'react';
 
 type Props = {
   submit?: boolean;
-  flexEnd?: boolean;
   disabled?: boolean;
   onClick?: () => void;
   children: React.ReactNode;
@@ -31,7 +30,7 @@ const Button: FC<Props> = ({
       ) : (
         <button
           disabled={disabled}
-          onClick={() => onClick()}
+          onClick={onClick}
           className={`button ${className}`}
         >
           {children}

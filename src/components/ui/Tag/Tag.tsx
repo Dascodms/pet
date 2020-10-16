@@ -2,32 +2,34 @@ import './Tag.scss';
 
 import React, { FC } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { usePage } from '../../Contexts/PageContext';
 import { useTab } from '../../Contexts/TabContext';
 
 type Props = {
   tag: string;
   className?: string;
-  setPage: (page: number) => void;
 };
 
-const Tag: FC<Props> = ({ tag, setPage, className = '' }): JSX.Element => {
+const Tag: FC<Props> = ({ tag, className = '' }): JSX.Element => {
   const { tab, setTab } = useTab();
+  const { setPage } = usePage();
+  const history = useHistory();
 
   const onClickHandle = () => {
-    setPage(0);
     setTab(tag);
+    setPage(0);
+    history.push(`/home/feed-by-tag?tag=${tag}`);
   };
 
   return (
-    <NavLink
-      to={`/home/feed-by-tag?tag=${tag}`}
+    <div
       onClick={onClickHandle}
       className={`tag ${tab === tag ? 'tag__active' : ''} ${className}
       }`}
     >
       {tag}
-    </NavLink>
+    </div>
   );
 };
 

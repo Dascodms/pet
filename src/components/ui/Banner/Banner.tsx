@@ -3,7 +3,7 @@ import './Banner.scss';
 import React, { FC, ReactNode } from 'react';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   backgroundColor: string;
 };
 

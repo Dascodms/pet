@@ -7,11 +7,7 @@ import Tag from '../Tag';
 import { getTags } from '../../../../services/tagsService/tagsService';
 import { useQuery } from 'react-query';
 
-type Props = {
-  setPage: (page: number) => void;
-};
-
-const PopularTags: FC<Props> = ({ setPage }): JSX.Element => {
+const PopularTags: FC = (): JSX.Element => {
   const { isLoading, data, error } = useQuery('tags', getTags, {
     refetchOnWindowFocus: false,
   });
@@ -26,7 +22,6 @@ const PopularTags: FC<Props> = ({ setPage }): JSX.Element => {
             className="tag__popular"
             key={Date.now() + Math.random() * 1000}
             tag={tag}
-            setPage={setPage}
           />
         ))
       )}

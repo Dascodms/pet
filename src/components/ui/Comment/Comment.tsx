@@ -1,15 +1,12 @@
 import './Comment.scss';
 
-import React, { FC } from 'react';
-import { queryCache, useMutation } from 'react-query';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { Author } from '../Article/Article.type';
 import DeleteButton from '../DeleteButton/DeleteButton';
-import Moment from 'react-moment';
-import User from '../User/User';
-import UserAvatar from '../User/UserAvatar/UserAvatar';
+import DeleteCommentModal from '../../modals/DeleteCommentModal/DeleteCommentModal';
+import UserInfo from '../User/UserInfo/UserInfo';
 import Wrapper from '../Wrapper/Wrapper';
-import { deleteComment } from '../../../services/commentService/commentService';
 
 type Props = {
   id?: number;
@@ -30,28 +27,11 @@ const Comment: FC<Props> = ({
   slug,
 }): JSX.Element => {
   const { image, username } = author;
-  const [mutate] = useMutation(deleteComment, {
-    onMutate: ({ slug, id }) => {
-      queryCache.cancelQueries(['comments', slug]);
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
 
-      const previousComments = queryCache.getQueryData(['comments', slug]);
-
-      queryCache.setQueryData(['comments', slug], (old: Props[]) =>
-        old.filter((comment) => comment.id !== id),
-      );
-
-      return () =>
-        queryCache.setQueryData(['comments', slug], previousComments);
-    },
-    onError: (rollback: () => void) => rollback(),
-    onSettled: () => {
-      queryCache.invalidateQueries(['comments', slug]);
-    },
-  });
-
-  const handleRemove = () => {
-    mutate({ slug, id });
-  };
+  const handleRemove = useCallback(() => {
+    setShowDeleteCommentModal(true);
+  }, []);
 
   return (
     <div className="comment">
@@ -66,20 +46,20 @@ const Comment: FC<Props> = ({
         <Wrapper
           style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
         >
-          <UserAvatar
-            className="user-avatar__feed"
-            username={username}
-            image={image}
-          />
-          <div>
-            <User username={username} />
-            <Moment format="LL HH:mm">{createdAt}</Moment>
-          </div>
+          <UserInfo username={username} image={image} createdAt={createdAt} />
         </Wrapper>
         {currentUser === username ? (
           <DeleteButton isLoading={false} onClick={handleRemove} />
         ) : null}
       </Wrapper>
+      {showDeleteCommentModal ? (
+        <DeleteCommentModal
+          id={id}
+          slug={slug}
+          setShow={setShowDeleteCommentModal}
+          show={showDeleteCommentModal}
+        />
+      ) : null}
     </div>
   );
 };
