@@ -1,8 +1,5 @@
 import React, { ReactNode, useMemo, useState } from 'react';
 
-import QueryString from 'query-string';
-import { useLocation } from 'react-router-dom';
-
 type TabContextType = {
   tab: string;
   setTab: (value: string) => void;
@@ -19,11 +16,7 @@ const useTab = (): TabContextType => {
 };
 
 const TabProvider: React.FC<{ children: ReactNode }> = (props) => {
-  const location = useLocation();
-  const [tab, setTab] = useState<string>(() => {
-    const { tag } = QueryString.parse(location.search);
-    return tag as string;
-  });
+  const [tab, setTab] = useState<string>('');
 
   const value = useMemo(() => {
     return { tab, setTab };
