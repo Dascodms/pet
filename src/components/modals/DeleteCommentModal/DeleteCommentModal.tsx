@@ -1,36 +1,51 @@
 import '../../../assets/scss/modal.scss';
 
 import React, { FC } from 'react';
+import { queryCache, useMutation } from 'react-query';
 
 import Backdrop from '../../ui/Backdrop/Backdrop';
 import Button from '../../ui/Button/Button';
 import Modal from '../Modal/Modal';
 import { VscClose } from 'react-icons/vsc';
 import Wrapper from '../../ui/Wrapper/Wrapper';
-import { deleteArticle } from '../../../services/articleService/articleService';
-import { useHistory } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { deleteComment } from '../../../services/commentService/commentService';
 
 type Props = {
-  setShowDeleteArticleModal: (value: boolean) => void;
+  setShow: (value: boolean) => void;
+  show: boolean;
   slug: string;
+  id: number;
 };
 
-const DeleteArticleModal: FC<Props> = ({
-  setShowDeleteArticleModal,
+const DeleteCommentModal: FC<Props> = ({
+  setShow,
   slug,
+  id,
+  show,
 }): JSX.Element => {
-  const history = useHistory();
-  const [mutate, { isLoading }] = useMutation(deleteArticle, {
-    onSuccess() {
-      history.push('/home');
+  const [mutate, { isLoading }] = useMutation(deleteComment, {
+    onMutate: ({ slug, id }) => {
+      queryCache.cancelQueries(['comments', slug]);
+
+      const previousComments = queryCache.getQueryData(['comments', slug]);
+
+      queryCache.setQueryData(['comments', slug], (old: Props[]) =>
+        old.filter((comment) => comment.id !== id),
+      );
+
+      return () =>
+        queryCache.setQueryData(['comments', slug], previousComments);
+    },
+    onError: (rollback: () => void) => rollback(),
+    onSettled: () => {
+      queryCache.invalidateQueries(['comments', slug]);
     },
   });
 
+  if (!show) return null;
   return (
     <>
-      <Backdrop setShow={setShowDeleteArticleModal} />
-
+      <Backdrop setShow={setShow} />
       <Modal>
         <Wrapper
           style={{
@@ -40,7 +55,7 @@ const DeleteArticleModal: FC<Props> = ({
           }}
         >
           <VscClose
-            onClick={() => setShowDeleteArticleModal(false)}
+            onClick={() => setShow(false)}
             className="modal__close"
             color="red"
             size="1.2em"
@@ -52,14 +67,14 @@ const DeleteArticleModal: FC<Props> = ({
           <div>
             <Button
               disabled={isLoading}
-              onClick={() => mutate(slug)}
+              onClick={() => mutate({ slug, id })}
               className="button__delete-modal"
             >
               Yes
             </Button>
             <Button
               disabled={isLoading}
-              onClick={() => setShowDeleteArticleModal(false)}
+              onClick={() => setShow(false)}
               className="button__delete-modal"
             >
               No
@@ -71,4 +86,4 @@ const DeleteArticleModal: FC<Props> = ({
   );
 };
 
-export default DeleteArticleModal;
+export default DeleteCommentModal;

@@ -3,8 +3,10 @@ import '../../../assets/scss/modal.scss';
 import React, { FC, useEffect } from 'react';
 import { queryCache, useMutation } from 'react-query';
 
+import Backdrop from '../../ui/Backdrop/Backdrop';
 import Button from '../../ui/Button/Button';
 import Input from '../../ui/Input/Input';
+import Modal from '../Modal/Modal';
 import Textarea from '../../ui/Textarea/Textarea';
 import Title from '../../ui/Title/Title';
 import { VscClose } from 'react-icons/vsc';
@@ -40,9 +42,6 @@ const EditArticleModal: FC<Props> = ({
     onSuccess() {
       queryCache.refetchQueries(['article', slug]);
     },
-    onError(e) {
-      console.log(e);
-    },
   });
 
   const onSubmit = (data: PutType): void => {
@@ -59,8 +58,8 @@ const EditArticleModal: FC<Props> = ({
 
   return (
     <>
-      <div onClick={() => setShow(false)} className="modal__background"></div>
-      <div className="modal">
+      <Backdrop setShow={setShow} />
+      <Modal>
         <VscClose
           onClick={() => setShow(false)}
           className="modal__close"
@@ -105,11 +104,11 @@ const EditArticleModal: FC<Props> = ({
             className="textarea__form"
           ></Textarea>
 
-          <Button disabled={isLoading} flexEnd submit>
+          <Button disabled={isLoading} submit>
             Edit Article
           </Button>
         </form>
-      </div>
+      </Modal>
     </>
   );
 };
