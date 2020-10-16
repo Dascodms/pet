@@ -1,30 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { queryCache, usePaginatedQuery, useQuery } from 'react-query';
+import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import ArticleCard from '../../../ui/Article/ArticleCard';
-import Loader from '../../../ui/Loader/Loader';
-import Paginate from '../../../ui/Paginate/Paginate';
-import { ProfileFavoritedFeedProps } from './ProfileFavoritedFeed.type';
-import { getArticlesByUserFavorited } from '../../../../services/articleService/articleService';
+import ArticleCard from '../../../../ui/Article/ArticleCard';
+import Loader from '../../../../ui/Loader/Loader';
+import Paginate from '../../../../ui/Paginate/Paginate';
+import { getArticlesByUser } from '../../../../../services/articleService/articleService';
+import { usePage } from '../../../../Contexts/PageContext';
+import { useProfile } from '../../../../Contexts/ProfileContext';
 
-const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
-  setPage,
-  page,
-  username,
-}): JSX.Element => {
+const ProfileFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
+  const { page, setPage } = usePage();
+  const {
+    profile: { username },
+  } = useProfile();
+
   const [queryKey, setQueryKey] = useState(null);
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-profile-favorites', page, username],
-    getArticlesByUserFavorited,
+    ['articles-profile', page, username],
+    getArticlesByUser,
   );
 
   useEffect(() => {
     setQueryKey(
-      queryCache.getQuery(['articles-profile-favorites', page, username])
-        .queryKey,
+      queryCache.getQuery(['articles-profile', page, username]).queryKey,
     );
   }, [page, username]);
 
@@ -54,17 +55,15 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
       {resolvedData.articlesCount ? (
         resolvedData.articles.map((article) => (
           <ArticleCard
-            setPage={setPage}
             key={article.updatedAt}
             article={article}
-            classes="article--mb20"
+            className="article--mb20"
             queryKey={queryKey}
           />
         ))
       ) : (
-        <div>No favorites articles</div>
+        <div>No articles</div>
       )}
-
       {isLoading || resolvedData.articlesCount <= 10 ? null : (
         <Paginate
           count={resolvedData.articlesCount / 10}
@@ -76,4 +75,4 @@ const ProfileFavoritedFeed: React.FC<ProfileFavoritedFeedProps> = ({
   );
 };
 
-export default ProfileFavoritedFeed;
+export default ProfileFeed;
