@@ -21,8 +21,6 @@ const TagFeed: React.FC = (): JSX.Element => {
     getArticlesByTag,
   );
 
-  console.count('TAGFEED');
-
   useEffect(() => {
     const { tag } = QueryString.parse(location.search);
     setTab(tag as string);

@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CreatePost from '../pages/CreatePost/CreatePost';
-import Home from '../pages/Home/Home';
-import Profile from '../pages/Profile/Profile';
+import Home from '../pages/Home/components/Home/Home';
+import Profile from '../pages/Profile/components/Profile/Profile';
 import Settings from '../pages/Settings/Settings';
 import SignUp from '../pages/SignUp/SignUp';
 import SingIn from '../pages/SignIn/SignIn';
