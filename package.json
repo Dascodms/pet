@@ -29,7 +29,6 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/react": "^16.9.47",
     "@types/react-dom": "^16.9.8",
-    "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "autoprefixer": "^9.8.6",
@@ -55,22 +54,17 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.4.0",
     "@types/react-paginate": "^6.2.1",
     "@types/react-router-dom": "^5.1.5",
-    "moment": "^2.27.0",
+    "dayjs": "^1.9.2",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.7.0",
     "react-icons": "^3.11.0",
-    "react-moment": "^0.9.7",
     "react-paginate": "^6.4.0",
     "react-query": "^2.23.0",
     "react-query-devtools": "^2.5.1",
-    "react-redux": "^7.2.1",
-    "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
-    "redux-observable": "^1.2.0"
+    "react-router-dom": "^5.2.0"
   }
 }
