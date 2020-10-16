@@ -1,9 +1,9 @@
 import './app.scss';
 
 import Header from './ui/Header/Header';
+import { ProfileProvider } from './Contexts/ProfileContext';
 import React from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
-import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './Routes/Routes';
 import { TOKEN_NAME } from '../api';
 import { TabProvider } from './Contexts/TabContext';
@@ -24,12 +24,12 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Router>
-        <TabProvider>
-          <Header />
+      <TabProvider>
+        <Header />
+        <ProfileProvider>
           <Routes />
-        </TabProvider>
-      </Router>
+        </ProfileProvider>
+      </TabProvider>
       <ReactQueryDevtools initialIsOpen />
     </>
   );
