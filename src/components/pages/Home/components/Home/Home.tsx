@@ -4,19 +4,25 @@ import Container from '../../../../ui/Container/Container';
 import HomeRoutes from '../../routes/HomeRoutes';
 import HomeTabs from '../HomeTabs/HomeTabs';
 import PopularTags from '../../../../ui/Tag/PopularTags/PopularTags';
-import QueryString from 'query-string';
 import Wrapper from '../../../../ui/Wrapper/Wrapper';
-import { useLocation } from 'react-router-dom';
 import { usePage } from '../../../../Contexts/PageContext';
+import { useTab } from '../../../../Contexts/TabContext';
 
-const Home: FC = () => {
-  const location = useLocation();
+type Props = {
+  location: Location;
+};
+
+const Home: FC<Props> = ({ location }) => {
   const { setPage } = usePage();
+  const { setTab, tab } = useTab();
 
   React.useEffect(() => {
-    const { page } = QueryString.parse(location.search);
-    const currentPage = page ? +page - 1 : 0;
-    setPage(currentPage);
+    const query = new URLSearchParams(location.search);
+    const page = query.get('page');
+    const tag = query.get('tag');
+
+    setPage(page ? +page - 1 : 0);
+    setTab(tag ? tag : tab);
   }, [location]);
 
   return (

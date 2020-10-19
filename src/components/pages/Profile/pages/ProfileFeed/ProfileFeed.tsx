@@ -1,38 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { queryCache, usePaginatedQuery } from 'react-query';
+import React, { useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import ArticleCard from '../../../../ui/Article/ArticleCard';
 import Loader from '../../../../ui/Loader/Loader';
 import Paginate from '../../../../ui/Paginate/Paginate';
 import { getArticlesByUser } from '../../../../../services/articleService/articleService';
+import { useFavoriteStatusMutation } from '../../../../../hooks/useFavoriteStatusMutation';
 import { usePage } from '../../../../Contexts/PageContext';
+import { usePaginatedQuery } from 'react-query';
 import { useProfile } from '../../../../Contexts/ProfileContext';
 
 const ProfileFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { page, setPage } = usePage();
+  const { page } = usePage();
   const {
     profile: { username },
   } = useProfile();
+  const queryKey = ['articles-profile', page, username];
+  const [mutate] = useFavoriteStatusMutation(queryKey);
 
-  const [queryKey, setQueryKey] = useState(null);
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-profile', page, username],
+    queryKey,
     getArticlesByUser,
   );
 
-  useEffect(() => {
-    setQueryKey(
-      queryCache.getQuery(['articles-profile', page, username]).queryKey,
-    );
-  }, [page, username]);
-
   const onPageChange = useCallback(
     (page: number) => {
-      setPage(page);
-
       history.push({
         pathname: location.pathname,
         search: page ? `?page=${++page}` : '',
@@ -46,6 +40,10 @@ const ProfileFeed: React.FC = (): JSX.Element => {
     [page],
   );
 
+  const handleChangeFavoriteStatus = (slug: string, favorited: boolean) => {
+    mutate({ slug, favorited });
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -55,10 +53,10 @@ const ProfileFeed: React.FC = (): JSX.Element => {
       {resolvedData.articlesCount ? (
         resolvedData.articles.map((article) => (
           <ArticleCard
+            handleFavoriteStatus={handleChangeFavoriteStatus}
             key={article.updatedAt}
             article={article}
             className="article--mb20"
-            queryKey={queryKey}
           />
         ))
       ) : (

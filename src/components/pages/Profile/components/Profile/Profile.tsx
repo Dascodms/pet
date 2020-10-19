@@ -7,10 +7,10 @@ import Loader from '../../../../ui/Loader/Loader';
 import ProfileButtons from '../ProfileButtons/ProfileButtons';
 import ProfileRoutes from '../../routes/ProfileRoutes';
 import ProfileTabs from '../ProfileTabs/ProfileTabs';
-import QueryString from 'query-string';
 import UserProfileInfo from '../../../../ui/User/UserProfileInfo/UserProfileInfo';
 import Wrapper from '../../../../ui/Wrapper/Wrapper';
 import { getProfile } from '../../../../../services/profileService/profileService';
+import { getQueryParams } from '../../../../utils/useGetQueryParam';
 import { usePage } from '../../../../Contexts/PageContext';
 import { useProfile } from '../../../../Contexts/ProfileContext';
 import { useQuery } from 'react-query';
@@ -28,9 +28,10 @@ const Profile: FC = () => {
   });
 
   React.useEffect(() => {
-    const { page } = QueryString.parse(location.search);
-    const currentPage = page ? +page - 1 : 0;
-    setPage(currentPage);
+    const query = new URLSearchParams(location.search);
+    const page = query.get('page');
+
+    setPage(page ? +page - 1 : 0);
   }, [location]);
 
   if (isLoading) {

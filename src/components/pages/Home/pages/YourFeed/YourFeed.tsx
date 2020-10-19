@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -6,26 +6,24 @@ import ArticleCard from '../../../../ui/Article/ArticleCard';
 import Loader from '../../../../ui/Loader/Loader';
 import Paginate from '../../../../ui/Paginate/Paginate';
 import { getArticlesByFeed } from '../../../../../services/articleService/articleService';
+import { useFavoriteStatusMutation } from '../../../../../hooks/useFavoriteStatusMutation';
 import { usePage } from '../../../../Contexts/PageContext';
 
 const YourFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { page, setPage } = usePage();
-  const [queryKey, setQueryKey] = useState(null);
+  const { page } = usePage();
+  const queryKey = ['articles-feed', page];
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-feed', page],
+    queryKey,
     getArticlesByFeed,
   );
-
-  useEffect(() => {
-    setQueryKey(queryCache.getQuery(['articles-feed', page]).queryKey);
-  }, [page]);
+  const [mutate] = useFavoriteStatusMutation(
+    queryCache.getQuery(queryKey).queryKey,
+  );
 
   const onPageChange = useCallback(
     (page: number) => {
-      setPage(page);
-
       history.push({
         pathname: location.pathname,
         search: page ? `page=${++page}` : '',
@@ -39,6 +37,10 @@ const YourFeed: React.FC = (): JSX.Element => {
     [page],
   );
 
+  const handleChangeFavoriteStatus = (slug: string, favorited: boolean) => {
+    mutate({ slug, favorited });
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -48,10 +50,10 @@ const YourFeed: React.FC = (): JSX.Element => {
       {resolvedData.articlesCount ? (
         resolvedData.articles.map((article) => (
           <ArticleCard
+            handleFavoriteStatus={handleChangeFavoriteStatus}
             key={article.updatedAt}
             article={article}
             className="article--mb20"
-            queryKey={queryKey}
           />
         ))
       ) : (

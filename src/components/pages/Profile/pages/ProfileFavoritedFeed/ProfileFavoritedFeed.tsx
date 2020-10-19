@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -6,33 +6,29 @@ import ArticleCard from '../../../../ui/Article/ArticleCard';
 import Loader from '../../../../ui/Loader/Loader';
 import Paginate from '../../../../ui/Paginate/Paginate';
 import { getArticlesByUserFavorited } from '../../../../../services/articleService/articleService';
+import { useFavoriteStatusMutation } from '../../../../../hooks/useFavoriteStatusMutation';
 import { usePage } from '../../../../Contexts/PageContext';
 import { useProfile } from '../../../../Contexts/ProfileContext';
 
 const ProfileFavoritedFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { page, setPage } = usePage();
+  const { page } = usePage();
   const {
     profile: { username },
   } = useProfile();
-  const [queryKey, setQueryKey] = useState(null);
+  const queryKey = ['articles-profile-favorites', page, username];
+
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-profile-favorites', page, username],
+    queryKey,
     getArticlesByUserFavorited,
   );
-
-  useEffect(() => {
-    setQueryKey(
-      queryCache.getQuery(['articles-profile-favorites', page, username])
-        .queryKey,
-    );
-  }, [page, username]);
+  const [mutate] = useFavoriteStatusMutation(
+    queryCache.getQuery(queryKey).queryKey,
+  );
 
   const onPageChange = useCallback(
     (page: number) => {
-      setPage(page);
-
       history.push({
         pathname: location.pathname,
         search: page ? `?page=${++page}` : '',
@@ -46,6 +42,10 @@ const ProfileFavoritedFeed: React.FC = (): JSX.Element => {
     [page],
   );
 
+  const handleChangeFavoriteStatus = (slug: string, favorited: boolean) => {
+    mutate({ slug, favorited });
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -58,7 +58,7 @@ const ProfileFavoritedFeed: React.FC = (): JSX.Element => {
             key={article.updatedAt}
             article={article}
             className="article--mb20"
-            queryKey={queryKey}
+            handleFavoriteStatus={handleChangeFavoriteStatus}
           />
         ))
       ) : (

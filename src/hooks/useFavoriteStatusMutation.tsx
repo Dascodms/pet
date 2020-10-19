@@ -1,9 +1,9 @@
-import { queryCache, useMutation } from 'react-query';
+import { QueryKey, queryCache, useMutation } from 'react-query';
 
 import { ArticleApi } from '../components/ui/Article/Article.type';
 import { favoriteArticle } from '../services/favoriteService/favoriteService';
 
-export function useFavoriteStatusMutation(queryKey: string) {
+export function useFavoriteStatusMutation(queryKey: QueryKey) {
   return useMutation(favoriteArticle, {
     onMutate: ({ slug, favorited }) => {
       queryCache.cancelQueries(queryKey);

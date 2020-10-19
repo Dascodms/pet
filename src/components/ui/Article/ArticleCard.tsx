@@ -9,18 +9,17 @@ import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import Tag from '../Tag/Tag';
 import UserInfo from '../User/UserInfo/UserInfo';
 import Wrapper from '../Wrapper/Wrapper';
-import { useFavoriteStatusMutation } from '../../../hooks/useFavoriteStatusMutation';
 
 type Props = {
   article: Article;
   className: string;
-  queryKey?: string;
+  handleFavoriteStatus: (slug: string, favorited: boolean) => void;
 };
 
 const ArticleCard: FC<Props> = ({
   article,
   className = '',
-  queryKey,
+  handleFavoriteStatus,
 }): JSX.Element => {
   const {
     title,
@@ -33,11 +32,6 @@ const ArticleCard: FC<Props> = ({
     author: { image, username },
   } = article;
   const [showTags, setShowTags] = useState<boolean>(false);
-  const [mutate] = useFavoriteStatusMutation(queryKey);
-
-  const handleClickFavoriteButton = () => {
-    mutate({ slug, favorited });
-  };
 
   return (
     <div className={`article ${className}`}>
@@ -51,7 +45,7 @@ const ArticleCard: FC<Props> = ({
         <FavoriteButton
           disabled={false}
           favorited={favorited}
-          onClick={handleClickFavoriteButton}
+          onClick={() => handleFavoriteStatus(slug, favorited)}
         >
           <span>{favoritesCount}</span>
         </FavoriteButton>

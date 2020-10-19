@@ -1,39 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { queryCache, usePaginatedQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import ArticleCard from '../../../../ui/Article/ArticleCard';
 import Loader from '../../../../ui/Loader/Loader';
 import Paginate from '../../../../ui/Paginate/Paginate';
-import QueryString from 'query-string';
 import { getArticlesByTag } from '../../../../../services/articleService/articleService';
+import { useFavoriteStatusMutation } from '../../../../../hooks/useFavoriteStatusMutation';
 import { usePage } from '../../../../Contexts/PageContext';
 import { useTab } from '../../../../Contexts/TabContext';
 
 const TagFeed: React.FC = (): JSX.Element => {
   const location = useLocation();
   const history = useHistory();
-  const { page, setPage } = usePage();
-  const { tab, setTab } = useTab();
-  const [queryKey, setQueryKey] = useState(null);
+  const { page } = usePage();
+  const { tab } = useTab();
+  const queryKey = ['articles-tag', page, tab];
   const { isLoading, resolvedData, error } = usePaginatedQuery(
-    ['articles-tag', page, tab],
+    queryKey,
     getArticlesByTag,
   );
-
-  useEffect(() => {
-    const { tag } = QueryString.parse(location.search);
-    setTab(tag as string);
-  }, []);
-
-  useEffect(() => {
-    setQueryKey(queryCache.getQuery(['articles-tag', page, tab]).queryKey);
-  }, [page, tab]);
+  const [mutate] = useFavoriteStatusMutation(
+    queryCache.getQuery(queryKey).queryKey,
+  );
 
   const onPageChange = useCallback(
     (page: number) => {
-      setPage(page);
-
       history.push({
         pathname: location.pathname,
         search: page ? `?tag=${tab}&page=${++page}` : `?tag=${tab}`,
@@ -47,6 +39,10 @@ const TagFeed: React.FC = (): JSX.Element => {
     [page, tab],
   );
 
+  const handleChangeFavoriteStatus = (slug: string, favorited: boolean) => {
+    mutate({ slug, favorited });
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -54,10 +50,10 @@ const TagFeed: React.FC = (): JSX.Element => {
     <div>
       {resolvedData.articles.map((article) => (
         <ArticleCard
+          handleFavoriteStatus={handleChangeFavoriteStatus}
           key={article.updatedAt}
           article={article}
           className="article--mb20"
-          queryKey={queryKey}
         />
       ))}
       {isLoading || resolvedData.articlesCount <= 10 ? null : (

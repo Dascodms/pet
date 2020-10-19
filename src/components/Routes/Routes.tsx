@@ -31,9 +31,7 @@ const Routes = (): JSX.Element => {
       <Route path="/profile/:user">
         <Profile />
       </Route>
-      <Route path="/home">
-        <Home />
-      </Route>
+      <Route path="/home" component={Home}></Route>
       <Redirect exact from="/" to="/home/feed" />
       <Route path="*">
         <div>Not found</div>
