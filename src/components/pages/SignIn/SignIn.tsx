@@ -32,6 +32,8 @@ const SingIn = (): JSX.Element => {
     mode: 'onTouched',
   });
 
+  // TODO REFACT FORM
+
   const [mutate, { error, isLoading }] = useMutation(signIn, {
     onSuccess(response) {
       setUser(response);

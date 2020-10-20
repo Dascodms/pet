@@ -10,7 +10,6 @@ type Props = {
 
 const AuthUserButtons: FC<Props> = ({ children, author }) => {
   const { user } = useAuth();
-
   return (
     <>
       {user?.username === author ? (

@@ -13,6 +13,8 @@ type FormData = {
   password: string;
 };
 
+// TODO REFACT FORM
+
 const SignUp = (): JSX.Element => {
   const { register, handleSubmit, errors, reset } = useForm<FormData>({
     mode: 'onTouched',
