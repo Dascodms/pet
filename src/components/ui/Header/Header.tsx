@@ -1,4 +1,3 @@
-import './Header.scss';
 import '../../../assets/scss/link.scss';
 
 import React, { memo } from 'react';

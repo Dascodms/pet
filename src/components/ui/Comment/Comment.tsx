@@ -1,4 +1,4 @@
-import './Comment.scss';
+import './style.scss';
 
 import React, { FC, useCallback, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import './Button.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 

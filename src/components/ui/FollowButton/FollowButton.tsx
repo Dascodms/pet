@@ -1,6 +1,6 @@
-import './FollowButton.scss';
+import './style.scss';
 
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 type Props = {
   username: string;
@@ -15,7 +15,6 @@ const FollowButton: FC<Props> = ({
   following,
   className = '',
 }): JSX.Element => {
-  useEffect(() => console.log('rerender'));
   return (
     <button className={`follow-button ${className}`} onClick={onClick}>
       {following ? 'Unfollow' : 'Follow'} {username}

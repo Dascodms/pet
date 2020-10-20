@@ -1,4 +1,4 @@
-import './CommentList.scss';
+import './style.scss';
 
 import Comment from '../Comment';
 import CommentAdd from '../CommentAdd/CommentAdd';

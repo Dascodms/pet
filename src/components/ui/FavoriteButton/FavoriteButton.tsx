@@ -1,4 +1,4 @@
-import './FavoriteButton.scss';
+import './style.scss';
 
 import React, { FC, ReactNode } from 'react';
 

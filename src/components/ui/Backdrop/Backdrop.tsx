@@ -1,4 +1,4 @@
-import './Backdrop.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 

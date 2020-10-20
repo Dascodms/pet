@@ -1,5 +1,4 @@
-import '../Article.scss';
-import './ArticleModalTags.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 

@@ -2,10 +2,10 @@ import './style.scss';
 
 import React, { FC } from 'react';
 
-import { Error } from '../../../types/error.type';
+import { ErrorType } from '../../../types/error.type';
 
 type Props = {
-  error: Error;
+  error: ErrorType;
 };
 
 const ErrorList: FC<Props> = ({ error }) => {

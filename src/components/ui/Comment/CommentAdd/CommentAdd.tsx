@@ -1,4 +1,4 @@
-import './CommentAdd.scss';
+import './style.scss';
 
 import {
   Comment,
