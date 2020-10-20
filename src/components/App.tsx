@@ -1,8 +1,9 @@
 import './app.scss';
 
+import React, { useEffect } from 'react';
+
 import Header from './ui/Header/Header';
 import { ProfileProvider } from './Contexts/ProfileContext';
-import React from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import Routes from './Routes/Routes';
 import { TOKEN_NAME } from '../api';
@@ -12,13 +13,13 @@ import { useUser } from '../hooks/useUser';
 
 const App: React.FC = () => {
   const { setUser } = useAuth();
-  const { data: user, error, isLoading } = useUser(
-    localStorage.getItem(TOKEN_NAME),
-  );
+  const { data, isLoading } = useUser(localStorage.getItem(TOKEN_NAME));
 
-  if (user) {
-    setUser(user);
-  }
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, []);
 
   if (isLoading) return null;
 
@@ -35,4 +36,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default React.memo(App);
