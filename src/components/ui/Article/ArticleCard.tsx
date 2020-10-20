@@ -9,6 +9,7 @@ import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import Tag from '../Tag/Tag';
 import UserInfo from '../User/UserInfo/UserInfo';
 import Wrapper from '../Wrapper/Wrapper';
+import { useAuth } from '../../Contexts/AuthContext';
 
 type Props = {
   article: Article;
@@ -32,6 +33,7 @@ const ArticleCard: FC<Props> = ({
     author: { image, username },
   } = article;
   const [showTags, setShowTags] = useState<boolean>(false);
+  const { user } = useAuth();
 
   return (
     <div className={`article ${className}`}>
@@ -43,7 +45,7 @@ const ArticleCard: FC<Props> = ({
       </Wrapper>
       <Wrapper style={{ marginTop: '20px' }}>
         <FavoriteButton
-          disabled={false}
+          disabled={user === null}
           favorited={favorited}
           onClick={() => handleFavoriteStatus(slug, favorited)}
         >
