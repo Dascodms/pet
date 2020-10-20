@@ -35,7 +35,7 @@ const Header = (): JSX.Element => {
               <NavLink
                 activeClassName="link--active"
                 className="link link--mr-10"
-                to="/home"
+                to="/"
               >
                 Home
               </NavLink>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 
 const Logo = (): JSX.Element => (
-  <Link className="logo" to="/home">
+  <Link className="logo" to="/">
     Blog
   </Link>
 );
