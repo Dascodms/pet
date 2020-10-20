@@ -1,4 +1,4 @@
-import './Textarea.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 

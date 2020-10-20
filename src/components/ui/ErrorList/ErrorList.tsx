@@ -10,9 +10,11 @@ type Props = {
 
 const ErrorList: FC<Props> = ({ error }) => {
   return (
-    <ul className="error">
+    <ul className="error-list">
       {Object.entries(error.errors).map(([key, value]) => {
-        return <li className="error__item" key={key}>{`${key} ${value}`}</li>;
+        return (
+          <li className="error-list__item" key={key}>{`${key} ${value}`}</li>
+        );
       })}
     </ul>
   );

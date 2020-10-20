@@ -1,6 +1,6 @@
 import './Comment.scss';
 
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 
 import { Author } from '../Article/Article.type';
 import DeleteButton from '../DeleteButton/DeleteButton';
@@ -57,7 +57,6 @@ const Comment: FC<Props> = ({
           id={id}
           slug={slug}
           setShow={setShowDeleteCommentModal}
-          show={showDeleteCommentModal}
         />
       ) : null}
     </div>

@@ -1,6 +1,6 @@
-import './Title.scss';
+import './style.scss';
 
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 type Props = {
   title: string;
@@ -8,4 +8,4 @@ type Props = {
 
 const Title: FC<Props> = ({ title }) => <h1 className="title">{title}</h1>;
 
-export default Title;
+export default memo(Title);

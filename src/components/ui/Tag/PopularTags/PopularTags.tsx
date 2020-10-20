@@ -1,4 +1,4 @@
-import './PopularTags.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 
@@ -8,7 +8,7 @@ import { getTags } from '../../../../services/tagsService/tagsService';
 import { useQuery } from 'react-query';
 
 const PopularTags: FC = (): JSX.Element => {
-  const { isLoading, data, error } = useQuery('tags', getTags, {
+  const { isLoading, data } = useQuery('tags', getTags, {
     refetchOnWindowFocus: false,
   });
 

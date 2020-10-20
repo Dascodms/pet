@@ -2,7 +2,6 @@ import './CommentList.scss';
 
 import Comment from '../Comment';
 import CommentAdd from '../CommentAdd/CommentAdd';
-import { CommentListProps } from './CommentList.type';
 import Container from '../../Container/Container';
 import { Link } from 'react-router-dom';
 import Loader from '../../Loader/Loader';
@@ -12,9 +11,14 @@ import { getComments } from '../../../../services/commentService/commentService'
 import { useAuth } from '../../../Contexts/AuthContext';
 import { useQuery } from 'react-query';
 
-const CommentList: React.FC<CommentListProps> = ({ slug }): JSX.Element => {
+type Props = {
+  slug: string;
+};
+
+const CommentList: React.FC<Props> = ({ slug }): JSX.Element => {
   const { user } = useAuth();
-  const { isLoading, data, error } = useQuery(['comments', slug], getComments);
+  const { isLoading, data } = useQuery(['comments', slug], getComments);
+
   return (
     <div>
       {isLoading ? (

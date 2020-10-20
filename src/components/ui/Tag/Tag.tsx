@@ -1,9 +1,8 @@
-import './Tag.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 
 import { useHistory } from 'react-router-dom';
-import { usePage } from '../../Contexts/PageContext';
 import { useTab } from '../../Contexts/TabContext';
 
 type Props = {
@@ -12,13 +11,10 @@ type Props = {
 };
 
 const Tag: FC<Props> = ({ tag, className = '' }): JSX.Element => {
-  const { tab, setTab } = useTab();
-  const { setPage } = usePage();
+  const { tab } = useTab();
   const history = useHistory();
 
   const onClickHandle = () => {
-    setTab(tag);
-    setPage(0);
     history.push(`/home/feed-by-tag?tag=${tag}`);
   };
 

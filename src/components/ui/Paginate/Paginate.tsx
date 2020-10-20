@@ -1,4 +1,4 @@
-import './Paginate.scss';
+import './style.scss';
 
 import React from 'react';
 import ReactPaginate from 'react-paginate';
@@ -15,8 +15,6 @@ const Paginate: React.FC<Props> = ({
   onPageChange,
   count,
 }): JSX.Element => {
-  console.count('Pagination');
-
   return (
     <Wrapper style={{ display: 'flex', justifyContent: 'center' }}>
       <ReactPaginate
