@@ -1,0 +1,10 @@
+@import '../../../assets/scss/variables.scss';
+
+.error {
+  list-style: disc;
+  margin: 15px;
+  &__item {
+    color: $error;
+    margin-bottom: 10px;
+  }
+}
