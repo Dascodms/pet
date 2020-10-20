@@ -9,6 +9,7 @@ import { useProfile } from '../../../../Contexts/ProfileContext';
 const ProfileButtons = (): JSX.Element => {
   const history = useHistory();
   const { user } = useAuth();
+
   const {
     profile: { username, following },
   } = useProfile();

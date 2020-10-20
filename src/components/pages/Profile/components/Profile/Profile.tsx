@@ -10,7 +10,7 @@ import ProfileTabs from '../ProfileTabs/ProfileTabs';
 import UserProfileInfo from '../../../../ui/User/UserProfileInfo/UserProfileInfo';
 import Wrapper from '../../../../ui/Wrapper/Wrapper';
 import { getProfile } from '../../../../../services/profileService/profileService';
-import { getQueryParams } from '../../../../utils/useGetQueryParam';
+import { useAuth } from '../../../../Contexts/AuthContext';
 import { usePage } from '../../../../Contexts/PageContext';
 import { useProfile } from '../../../../Contexts/ProfileContext';
 import { useQuery } from 'react-query';
@@ -20,6 +20,7 @@ const Profile: FC = () => {
   const { user } = useParams<{ user: string }>();
   const { setPage } = usePage();
   const location = useLocation();
+  const { user: authUser } = useAuth();
 
   const { isLoading } = useQuery(['profile', user], getProfile, {
     onSuccess(response) {
@@ -50,7 +51,7 @@ const Profile: FC = () => {
             }}
           >
             <UserProfileInfo />
-            <ProfileButtons />
+            {authUser ? <ProfileButtons /> : null}
           </Wrapper>
         </Container>
       </Banner>
