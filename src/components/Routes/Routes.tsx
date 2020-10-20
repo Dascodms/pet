@@ -10,7 +10,6 @@ import SingIn from '../pages/SignIn/SignIn';
 import UserArticle from '../pages/UserArticle/UserArticle';
 
 const Routes = (): JSX.Element => {
-  console.count('ROUTES');
   return (
     <Switch>
       <Route path="/signup">

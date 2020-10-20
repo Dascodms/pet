@@ -16,10 +16,7 @@ type Props = {
   slug: string;
 };
 
-const DeleteArticleModal: FC<Props> = ({
-  setShowDeleteArticleModal,
-  slug,
-}): JSX.Element => {
+const DeleteArticleModal: FC<Props> = ({ setShowDeleteArticleModal, slug }) => {
   const history = useHistory();
   const [mutate, { isLoading }] = useMutation(deleteArticle, {
     onSuccess() {
