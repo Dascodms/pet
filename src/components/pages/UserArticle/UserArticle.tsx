@@ -1,7 +1,9 @@
 import './UserArticle.scss';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
+import AuthUserButtons from './components/AuthUserButtons/AuthUserButtons';
 import Banner from '../../ui/Banner/Banner';
 import Button from '../../ui/Button/Button';
 import CommentList from '../../ui/Comment/CommentList/CommentList';
@@ -13,27 +15,22 @@ import Title from '../../ui/Title/Title';
 import UserInfo from '../../ui/User/UserInfo/UserInfo';
 import Wrapper from '../../ui/Wrapper/Wrapper';
 import { getArticle } from '../../../services/articleService/articleService';
-import { useAuth } from '../../Contexts/AuthContext';
-import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-type UserArticle = {
-  body: string;
-  createdAt: string;
-  title: string;
-  username: string;
-  image: string;
-  slug: string;
-};
-
-const UserArticle: React.FC = (): JSX.Element => {
+const UserArticle: FC = () => {
+  const history = useHistory();
   const { slug } = useParams<{ slug: string }>();
-  const { data, isLoading } = useQuery(['article', slug], getArticle);
+  const { data, isLoading } = useQuery(['article', slug], getArticle, {
+    retry: false,
+    onError(err) {
+      if (err === 404) {
+        history.push('/');
+      }
+    },
+  });
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const { user: authUser } = useAuth();
 
   const handleSetShowDeleteModal = () => {
     setShowDeleteModal(true);
@@ -67,29 +64,20 @@ const UserArticle: React.FC = (): JSX.Element => {
                     createdAt={data.createdAt}
                   />
                 </Wrapper>
-                {authUser.username === data.author.username ? (
-                  <Wrapper
-                    style={{
-                      display: 'flex',
-                      alignSelf: 'flex-end',
-                      justifyContent: 'space-between',
-                      width: '220px',
-                    }}
+                <AuthUserButtons author={data.author.username}>
+                  <Button
+                    onClick={handleSetShowDeleteModal}
+                    className="button__remove"
                   >
-                    <Button
-                      onClick={handleSetShowDeleteModal}
-                      className="button__remove"
-                    >
-                      Delete article
-                    </Button>
-                    <Button
-                      onClick={handleSetShowEditModal}
-                      className="button__edit"
-                    >
-                      Edit article
-                    </Button>
-                  </Wrapper>
-                ) : null}
+                    Delete article
+                  </Button>
+                  <Button
+                    onClick={handleSetShowEditModal}
+                    className="button__edit"
+                  >
+                    Edit article
+                  </Button>
+                </AuthUserButtons>
               </Wrapper>
             </Container>
           </Banner>
@@ -99,6 +87,7 @@ const UserArticle: React.FC = (): JSX.Element => {
           </Container>
 
           <CommentList slug={slug} />
+
           {showEditModal ? (
             <EditArticleModal
               slug={data.slug}
@@ -108,6 +97,7 @@ const UserArticle: React.FC = (): JSX.Element => {
               setShow={setShowEditModal}
             />
           ) : null}
+
           {showDeleteModal ? (
             <DeleteArticleModal
               slug={slug}

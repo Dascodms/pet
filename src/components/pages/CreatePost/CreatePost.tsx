@@ -1,5 +1,7 @@
 import Button from '../../ui/Button/Button';
 import Container from '../../ui/Container/Container';
+import Error from '../../ui/Error/Error';
+import FormGroup from '../../ui/FormGroup/FormGroup';
 import Input from '../../ui/Input/Input';
 import React from 'react';
 import Textarea from '../../ui/Textarea/Textarea';
@@ -38,45 +40,49 @@ const CreatePost: React.FC = () => {
     <Container className="container__form">
       <Title title="Create Post" />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          register={register({
-            required: 'Required field',
-          })}
-          type="text"
-          name="title"
-          placeholder="Article title"
-          className="input__form"
-          error={errors.title}
-        />
+        <FormGroup>
+          <Input
+            register={register({
+              required: 'Required field',
+            })}
+            type="text"
+            name="title"
+            placeholder="Article title"
+          />
+          {errors.title && <Error error={errors.title} />}
+        </FormGroup>
 
-        <Input
-          register={register({
-            required: 'Required field',
-          })}
-          type="text"
-          name="description"
-          placeholder="What's this article about?"
-          className="input__form"
-          error={errors.description}
-        />
+        <FormGroup>
+          <Input
+            register={register({
+              required: 'Required field',
+            })}
+            type="text"
+            name="description"
+            placeholder="What's this article about?"
+          />
+          {errors.description && <Error error={errors.description} />}
+        </FormGroup>
 
-        <Textarea
-          register={register({
-            required: 'Required field',
-          })}
-          name="body"
-          placeholder="Write your article (in markdown)"
-          error={errors.body}
-          className="textarea__form"
-        ></Textarea>
+        <FormGroup>
+          <Textarea
+            register={register({
+              required: 'Required field',
+            })}
+            name="body"
+            placeholder="Write your article (in markdown)"
+          ></Textarea>
+          {errors.body && <Error style={{ top: '75px' }} error={errors.body} />}
+        </FormGroup>
 
-        <Input
-          register={register()}
-          type="text"
-          name="tagList"
-          placeholder="Enter tags"
-          className="input__form"
-        />
+        <FormGroup>
+          <Input
+            register={register()}
+            type="text"
+            name="tagList"
+            placeholder="Enter tags"
+          />
+        </FormGroup>
         <Button disabled={isLoading} submit>
           Create Post
         </Button>

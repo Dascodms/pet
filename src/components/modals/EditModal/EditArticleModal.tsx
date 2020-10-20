@@ -5,6 +5,8 @@ import { queryCache, useMutation } from 'react-query';
 
 import Backdrop from '../../ui/Backdrop/Backdrop';
 import Button from '../../ui/Button/Button';
+import Error from '../../ui/Error/Error';
+import FormGroup from '../../ui/FormGroup/FormGroup';
 import Input from '../../ui/Input/Input';
 import Modal from '../Modal/Modal';
 import Textarea from '../../ui/Textarea/Textarea';
@@ -33,7 +35,7 @@ const EditArticleModal: FC<Props> = ({
   body,
   description,
   slug,
-}): JSX.Element => {
+}) => {
   const { register, handleSubmit, errors, reset } = useForm<PutType>({
     mode: 'onTouched',
   });
@@ -69,40 +71,56 @@ const EditArticleModal: FC<Props> = ({
         />
         <Title title="Edit Article"></Title>
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            label="Title"
-            register={register({
-              required: 'Required field',
-            })}
-            type="text"
-            name="title"
-            placeholder="Article title"
-            className="input__form"
-            error={errors.title}
-          />
+          <FormGroup className="form-group--edit-modal">
+            <label>
+              Title
+              <Input
+                register={register({
+                  required: 'Required field',
+                })}
+                type="text"
+                name="title"
+                placeholder="Article title"
+              />
+            </label>
+            {errors.title && (
+              <Error style={{ top: '75px' }} error={errors.title} />
+            )}
+          </FormGroup>
 
-          <Input
-            label="Description"
-            register={register({
-              required: 'Required field',
-            })}
-            type="text"
-            name="description"
-            placeholder="What's this article about?"
-            className="input__form"
-            error={errors.description}
-          />
+          <FormGroup className="form-group--edit-modal">
+            <label>
+              Description
+              <Input
+                register={register({
+                  required: 'Required field',
+                })}
+                type="text"
+                name="description"
+                placeholder="What's this article about?"
+              />
+            </label>
+            {errors.description && (
+              <Error style={{ top: '75px' }} error={errors.description} />
+            )}
+          </FormGroup>
 
-          <Textarea
-            label="Body"
-            register={register({
-              required: 'Required field',
-            })}
-            name="body"
-            placeholder="Write your article (in markdown)"
-            error={errors.body}
-            className="textarea__form"
-          ></Textarea>
+          <FormGroup className="form-group--edit-modal">
+            <label>
+              Body
+              <Textarea
+                register={register({
+                  required: 'Required field',
+                })}
+                name="body"
+                placeholder="Write your article (in markdown)"
+              ></Textarea>
+            </label>
+
+            {errors.body && (
+              <Error style={{ top: '90px' }} error={errors.body} />
+            )}
+          </FormGroup>
 
           <Button disabled={isLoading} submit>
             Edit Article

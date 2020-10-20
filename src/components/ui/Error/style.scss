@@ -1,0 +1,7 @@
+@import '../../../assets/scss/variables.scss';
+
+.error {
+  position: absolute;
+  top: 55px;
+  color: $error;
+}
