@@ -1,6 +1,5 @@
+import { Comment, CreateComment, DeleteComment } from './commentService.types';
 import { del, get, post } from '../../api';
-
-import { Comment } from '../../components/ui/Comment/Comment.type';
 
 const url = `/articles/`;
 
@@ -16,10 +15,7 @@ export const getComments = async (
 export const createComment = async ({
   slug,
   commentText,
-}: {
-  slug: string;
-  commentText: string;
-}): Promise<Comment> => {
+}: CreateComment): Promise<Comment> => {
   const response = await post<{ comment: Comment }>(`${url}${slug}/comments`, {
     comment: {
       body: commentText,
@@ -32,10 +28,7 @@ export const createComment = async ({
 export const deleteComment = async ({
   slug,
   id,
-}: {
-  slug: string;
-  id: number;
-}): Promise<Comment> => {
+}: DeleteComment): Promise<Comment> => {
   const response = await del<{ comment: Comment }>(
     `${url}${slug}/comments/${id}`,
   );
