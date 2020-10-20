@@ -1,4 +1,4 @@
-import './UserArticle.scss';
+import './style.scss';
 
 import React, { FC, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
