@@ -1,4 +1,4 @@
-import './UserBiography.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 

@@ -6,7 +6,7 @@ import { useProfile } from '../../../Contexts/ProfileContext';
 
 const UserProfileInfo = (): JSX.Element => {
   const { profile } = useProfile();
-  console.log(profile);
+
   return (
     <>
       <UserAvatar

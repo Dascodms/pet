@@ -1,4 +1,4 @@
-import './UserDate.scss';
+import './style.scss';
 
 import * as dayjs from 'dayjs';
 

@@ -1,4 +1,4 @@
-import './UserName.scss';
+import './style.scss';
 
 import React, { FC } from 'react';
 
@@ -9,7 +9,7 @@ type Props = {
   className?: string;
 };
 
-const UserName: FC<Props> = ({ className = '', username }): JSX.Element => {
+const UserName: FC<Props> = ({ className = '', username }) => {
   return (
     <Link to={`/profile/${username}`} className={`username ${className}`}>
       {username}
