@@ -19,6 +19,11 @@ const request: Request = async (method, url, data) => {
   if (response.ok) {
     return response.json();
   }
+
+  if (response.status === 404) {
+    throw response.status;
+  }
+
   throw await response.json();
 };
 
