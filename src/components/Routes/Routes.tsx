@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import CreatePost from '../pages/CreatePost/CreatePost';
 import Home from '../pages/Home/components/Home/Home';
+import PrivateRoute from './PrivateRoute';
 import Profile from '../pages/Profile/components/Profile/Profile';
 import Settings from '../pages/Settings/Settings';
 import SignUp from '../pages/SignUp/SignUp';
@@ -19,10 +20,14 @@ const Routes = (): JSX.Element => {
         <SingIn />
       </Route>
       <Route path="/create">
-        <CreatePost />
+        <PrivateRoute>
+          <CreatePost />
+        </PrivateRoute>
       </Route>
       <Route path="/settings">
-        <Settings />
+        <PrivateRoute>
+          <Settings />
+        </PrivateRoute>
       </Route>
       <Route path="/article/:slug">
         <UserArticle />
